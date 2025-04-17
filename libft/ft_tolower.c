@@ -6,13 +6,13 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:40:12 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/17 15:40:43 by trupham          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:44:49 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_tolower(int c)
+int	ft_tolower(int c)
 {
-	if (c >= 'A' && c<='Z')
-		return c+32;
-	return c;
+	if (c >= 'A' && c <= 'Z')
+		return (c + 32);
+	return (c);
 }
