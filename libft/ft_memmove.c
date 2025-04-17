@@ -24,40 +24,71 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	{
 		while (n > 0)
 		{
-			*(dest_tmp + n - 1) = *(src_tmp + n - 1);
+			*(dest_tmp + n - 1) = *(src_tmp + n );
 			n--;
 		}
 	}
 	return (dest_tmp);
 }
-int	main(void)
-{
-	char	srcdest[20] = "01234";
-	char	ftsrcdest[20] = "01234";
+#include <stdio.h>
+#include <string.h>
 
-	if (!strcmp((char *)memmove(srcdest + 2, srcdest, 7),
-			(char *)ft_memmove(ftsrcdest + 2, ftsrcdest, 7)))
-		printf("OK: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	else
-		printf("Try again: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	if (!strcmp((char *)memmove(srcdest + 4, srcdest, 7),
-			(char *)ft_memmove(ftsrcdest + 4, ftsrcdest, 7)))
-		printf("OK: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	else
-		printf("Try again: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	if (!strcmp((char *)memmove(srcdest, srcdest + 8, 7),
-			(char *)ft_memmove(ftsrcdest, ftsrcdest + 8, 7)))
-		printf("OK: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	else
-		printf("Try again: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	if (!strcmp((char *)memmove(srcdest + 2, srcdest, 0),
-			(char *)ft_memmove(ftsrcdest + 2, ftsrcdest, 0)))
-		printf("OK: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	else
-		printf("Try again: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	if (!strcmp((char *)memmove(srcdest, srcdest, 5),
-			(char *)ft_memmove(ftsrcdest, ftsrcdest, 5)))
-		printf("OK: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
-	else
-		printf("Try again: expected \"%s\", got \"%s\".\n", srcdest, ftsrcdest);
+// --- Colored output macros ---
+#define GREEN   "\033[32m"
+#define RED     "\033[31m"
+#define YELLOW  "\033[33m"
+#define RESET   "\033[0m"
+
+// --- Custom assertion macro (continues on failure) ---
+#define TEST(condition) \
+    do { \
+        if (!(condition)) { \
+            printf(RED "[FAIL]" RESET " %s:%d: %s\n", __FILE__, __LINE__, #condition); \
+            test_failures++; \
+        } else { \
+            printf(GREEN "[PASS]" RESET " %s\n", #condition); \
+        } \
+    } while (0)
+//
+// --- Test cases for ft_memmove ---
+int test_ft_memmove() {
+    int test_failures = 0;
+    printf(YELLOW "\n=== Testing ft_memmove ===\n" RESET);
+
+    char src[] = "Hello, World!";
+    char dst1[20] = {0};
+    char dst2[20] = {0};
+
+    TEST(ft_memmove(dst1, src, strlen(src) + 1) == dst1);
+    TEST(strcmp(dst1, src) == 0);                         // Normal copy
+
+    TEST(ft_memmove(dst2, src, 5) == dst2);
+    dst2[5] = '\0';
+    TEST(strcmp(dst2, "Hello") == 0);                     // Partial copy
+
+    // Overlapping (src < dst)
+    char buf1[] = "abcdef";
+    ft_memmove(buf1 + 2, buf1, 3);
+    TEST(strcmp(buf1, "ababcf") == 0);
+
+    // Overlapping (src > dst)
+    char buf2[] = "abcdef";
+    ft_memmove(buf2, buf2 + 2, 3);
+    TEST(strcmp(buf2, "cdedef") == 0);
+
+    return test_failures;
 }
+int main() {
+    int total_failures = 0;
+
+    total_failures += test_ft_memmove();
+
+    if (total_failures == 0) {
+        printf(GREEN "\nAll tests passed! 🎉\n" RESET);
+    } else {
+        printf(RED "\n%d tests failed! 💀\n" RESET, total_failures);
+    }
+
+    return (total_failures != 0);
+}
+
