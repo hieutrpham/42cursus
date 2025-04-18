@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 15:09:51 by trupham           #+#    #+#             */
+/*   Created: 2025/04/18 11:37:54 by trupham           #+#    #+#             */
 /*   Updated: 2025/04/18 14:13:36 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-int	ft_isascii(int c)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	c = c % 256;
-	if (c >= 0 && c <= 127)
-		return (1);
-	return (0);
+	int	sum;
+
+	sum = 0;
+	while (n)
+	{
+		sum = *(unsigned char *)s1 - *(unsigned char *)s2;
+		if (sum != 0)
+			break ;
+		n--;
+		s1++;
+		s2++;
+	}
+	return (sum);
 }
