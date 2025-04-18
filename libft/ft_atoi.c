@@ -46,3 +46,8 @@ int	ft_atoi(const char *nptr)
 	}
 	return (atoi * sign);
 }
+int	main(void)
+{
+	printf("%d\n", ft_atoi("123ac"));
+	printf("%d\n", atoi("123ac"));
+}
