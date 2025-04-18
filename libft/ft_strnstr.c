@@ -18,7 +18,7 @@ char	*ft_strnstr(const char *big, const char *smol, size_t len)
 	int	tmplen;
 
 	i = 0;
-	if (ft_strncmp(smol, "", sizeof(smol)) == 0)
+	if (*smol == 0)
 		return ((char *)big);
 	while (big[i] && len)
 	{

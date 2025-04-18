@@ -6,11 +6,12 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 14:12:52 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/18 14:13:13 by trupham          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:14:17 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <limits.h>
 
 static int	isspace(int c)
 {
@@ -45,9 +46,4 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (atoi * sign);
-}
-int	main(void)
-{
-	printf("%d\n", ft_atoi("123ac"));
-	printf("%d\n", atoi("123ac"));
 }
