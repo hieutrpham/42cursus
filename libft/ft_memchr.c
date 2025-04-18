@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 17:31:55 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/18 10:48:52 by trupham          ###   ########.fr       */
+/*   Created: 2025/04/18 10:07:14 by trupham           #+#    #+#             */
+/*   Updated: 2025/04/18 10:32:17 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-char	*ft_strrchr(const char *s, int c)
-{
-	int	len;
-
-	len = ft_strlen(s);
-	while (len >= 0)
-	{
-		if (s[len] == (char)c)
-			return ((char *)&s[len]);
-		len--;
-	}
-	return (NULL);
-}
+// void	*ft_memchr(const void *s, int c, size_t n)
+// {
+// 	(void)n;
+// 	return (NULL);
+// }
