@@ -19,16 +19,15 @@
 	do {\
 	test_count++; \
 	if (!(condition)) {\
-		printf(RED "%d.KO" RESET " %s:%d\n", test_count, __FILE__, __LINE__);\
+		printf(RED "%d.KO" RESET " %s:%d ", test_count, __FILE__, __LINE__);\
 		 test_failures++;\
 	} else {\
-	printf(GREEN "%d.OK" RESET "\n", test_count);\
+	printf(GREEN "%d.OK " RESET, test_count);\
 	}\
 	} while (0)
 
 int test_atoi();
 int test_bzero();
-int test_calloc();
 int test_isalnum();
 int test_isalpha();
 int test_isascii();

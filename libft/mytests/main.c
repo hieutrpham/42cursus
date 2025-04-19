@@ -3,25 +3,45 @@
 int main()
 {
 test_atoi();
+	printf("\n");
 test_bzero();
-test_calloc();
+	printf("\n");
 test_isalnum();
+	printf("\n");
 test_isalpha();
+	printf("\n");
 test_isascii();
+	printf("\n");
 test_isdigit();
+	printf("\n");
 test_isprint();
+	printf("\n");
 test_memchr();
+	printf("\n");
 test_memcmp();
+	printf("\n");
 test_memcpy();
+	printf("\n");
 test_memmove();
+	printf("\n");
 test_memset();
+	printf("\n");
 test_strchr();
+	printf("\n");
 test_strlcat();
+	printf("\n");
 test_strlcpy();
+	printf("\n");
 test_strlen();
+	printf("\n");
 test_strncmp();
+	printf("\n");
 test_strnstr();
+	printf("\n");
 test_strrchr();
+	printf("\n");
 test_tolower();
+	printf("\n");
 test_toupper();
+	printf("\n");
 }
