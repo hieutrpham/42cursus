@@ -1,6 +1,7 @@
 #ifndef TEST_H
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "../libft.h"
 #include "ctype.h"
 // #include <bsd/string.h>
@@ -47,5 +48,6 @@ int test_strnstr();
 int test_strrchr();
 int test_tolower();
 int test_toupper();
+int test_calloc();
 #endif // !TEST_H
 

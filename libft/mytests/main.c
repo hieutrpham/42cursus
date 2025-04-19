@@ -44,4 +44,7 @@ test_tolower();
 	printf("\n");
 test_toupper();
 	printf("\n");
+	test_calloc();
+	printf("\n");
+	return 1;
 }
