@@ -18,13 +18,17 @@ OBJ = $(patsubst %.c, %.o, $(SRC))
 
 NAME = libft.a
 
+GREEN    = \033[32m
+RESET    = \033[0m
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+	@ar rcs $@ $^
+	@printf "$(GREEN)libft.a created successfully!$(RESET)"
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) -I. -c -o $@ $<
 
 clean:
 	@rm -rf $(OBJ)
@@ -35,4 +39,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-

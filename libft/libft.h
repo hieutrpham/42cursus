@@ -13,8 +13,6 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <assert.h>
-# include <bsd/string.h>
 # include <stddef.h>
 # include <stdio.h>
 # include <string.h>
