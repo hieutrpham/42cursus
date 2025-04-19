@@ -1,10 +1,11 @@
 #ifndef TEST_H
-#include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "../libft.h"
 #include "ctype.h"
-// #include <bsd/string.h>
+#include <bsd/string.h>
 
 // --- Colored output macros ---
 #define GREEN   "\033[32m"
@@ -49,5 +50,6 @@ int test_strrchr();
 int test_tolower();
 int test_toupper();
 int test_calloc();
+int test_strdup();
+int test_substr();
 #endif // !TEST_H
-

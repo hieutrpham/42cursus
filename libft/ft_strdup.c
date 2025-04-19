@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 16:26:04 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/19 16:26:05 by trupham          ###   ########.fr       */
+/*   Created: 2025/04/19 16:25:51 by trupham           #+#    #+#             */
+/*   Updated: 2025/04/19 16:25:52 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t n, size_t size)
+char	*ft_strdup(const char *s)
 {
-	unsigned char	*ptr;
-	size_t			i;
+	char	*str;
+	int		i;
 
 	i = 0;
-	if (n == 0 || size == 0)
-		return (malloc(0));
-	ptr = malloc(n * size);
-	if (!ptr)
+	str = malloc(ft_strlen(s) + 1);
+	if (!str)
 		return (NULL);
-	while (i < n * size)
-		ptr[i++] = 0;
-	return (ptr);
+	while (s[i])
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = 0;
+	return (str);
 }

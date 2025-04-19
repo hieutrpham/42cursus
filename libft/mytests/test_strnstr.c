@@ -8,9 +8,9 @@ int test_strnstr(void)
     
     char str[] = "Hello world";
     
-    /* 1 */ TEST(ft_strnstr(str, "wor", 11) == &str[11]);
-    /* 2 */ TEST(ft_strnstr(str, "hello", 11) == &str[1]);
-    /* 3 */ TEST(ft_strnstr(str, "", 11) == &str[12]);
+    /* 1 */ TEST(strcmp(ft_strnstr(str, "wor", 11), strnstr(str, "wor", 11)) == 0);
+    /* 2 */ TEST(strcmp(ft_strnstr(str, "He", 11), strnstr(str, "He", 11)) == 0);
+    /* 3 */ TEST(strcmp(ft_strnstr(str, "o", 11), strnstr(str, "o", 11)) == 0);
     
     return test_failures;
 }
