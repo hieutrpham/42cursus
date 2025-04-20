@@ -10,6 +10,7 @@ int test_isalpha(void)
     /* 2 */ TEST(!!ft_isalpha('z') == !!isalpha('z'));
     /* 3 */ TEST(!!ft_isalpha('0') == !!isalpha('0'));
     /* 4 */ TEST(!!ft_isalpha('@') == !!isalpha('@'));
+    /* 5 */ TEST(!!ft_isalpha(-1) == !!isalpha(-1));
     
     return test_failures;
 }

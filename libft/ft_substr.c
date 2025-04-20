@@ -6,7 +6,7 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 16:25:25 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/19 18:33:46 by trupham          ###   ########.fr       */
+/*   Updated: 2025/04/19 18:54:02 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	s_len = ft_strlen(s);
-	if (start >= s_len || start + len >= s_len)
-		return NULL;
+	if (start >= s_len)
+		return ft_strdup("");
+	if (len > s_len)
+		len = s_len;
+	if (s_len - start < len)
+		len = s_len - start;
 	str = malloc(len + 1);
 	if (!str)
 		return NULL;

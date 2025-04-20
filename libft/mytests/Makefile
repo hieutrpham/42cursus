@@ -17,8 +17,10 @@ test: $(NAME)
 $(NAME): $(TEST_OBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(TEST_OBJ) $(LIBFT) -o $@ -lbsd
 
+relib: $(LIBFT)
+
 $(LIBFT):
-	make -C $(LIB_DIR)
+	make re -C $(LIB_DIR)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
