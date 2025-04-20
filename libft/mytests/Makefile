@@ -6,18 +6,19 @@ INCLUDES = -I$(LIB_DIR) -I.
 TEST_PATH = .
 TEST_SRC = $(foreach D, $(TEST_PATH), $(wildcard $(D)/*.c))
 TEST_OBJ = $(patsubst %.c, %.o, $(TEST_SRC))
-VAL = valgrind -q --leak-check=full
+VAL = valgrind --trace-children=yes --track-origins=yes --show-leak-kinds=all --leak-check=full
 NAME = test_all.out
 
 all: test
 
 test: $(NAME)
-	@./$(NAME)
+	@$(VAL) ./$(NAME)
 
 $(NAME): $(TEST_OBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(TEST_OBJ) $(LIBFT) -o $@ -lbsd
 
-relib: $(LIBFT)
+cleanlib:
+	make fclean -C $(LIB_DIR)
 
 $(LIBFT):
 	make re -C $(LIB_DIR)
@@ -28,7 +29,7 @@ $(LIBFT):
 clean:
 	@rm -f $(TEST_OBJ)
 
-fclean: clean
+fclean: clean cleanlib
 	@rm -f $(NAME)
 
 re: fclean all

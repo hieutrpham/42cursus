@@ -5,10 +5,18 @@ int test_strjoin()
 	TITLE("ft_strjoin");
 	int test_count = 0;
 	int test_failures = 0;
-	/*1*/TEST(!strcmp(ft_strjoin("hello", "world"), "helloworld"));
-	/*2*/TEST(!strcmp(ft_strjoin("", ""), ""));
-	/*3*/TEST(!strcmp(ft_strjoin("", "world"), "world"));
-	/*4*/TEST(!strcmp(ft_strjoin("hello", ""), "hello"));
+	char *s = ft_strjoin("hello", "world");
+	/*1*/TEST(!strcmp(s, "helloworld"));
+	free(s);
+	s = ft_strjoin("", "");
+	/*2*/TEST(!strcmp(s, ""));
+	free(s);
+	s = ft_strjoin("", "world");
+	/*3*/TEST(!strcmp(s, "world"));
+	free(s);
+	s = ft_strjoin("hello", "");
+	/*4*/TEST(!strcmp(s, "hello"));
+	free(s);
 
 	return test_failures;
 }

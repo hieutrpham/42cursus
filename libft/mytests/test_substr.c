@@ -6,18 +6,27 @@ int test_substr()
 	TITLE("ft_substr");
 	int test_count = 0;
 	int test_failures = 0;
-	const char *str = "helloworld";
-	char *s;	
+	char *str = "helloworld";
+	char *s;
 
-	/*1*/ TEST(strcmp(ft_substr(str, 0, 42000), "helloworld") == 0);
-	/*2*/ TEST(strcmp(ft_substr(str, 2, 7), "lloworl") == 0);
-	/*3*/ TEST(!!ft_substr(str, 299, 5));
-	/*4*/ TEST(!!ft_substr(str, 100, 1));
-	/*5*/ TEST(strcmp(ft_substr(str, 0, 5), "hello") == 0);
+	s = ft_substr(str, 0, 42000);
+	/*1*/ TEST(strcmp(s, "helloworld") == 0);
+	free(s);
+	s = ft_substr(str, 2, 7);
+	/*2*/ TEST(strcmp(s, "lloworl") == 0);
+	free(s);
+	s = ft_substr(str, 299, 5);
+	/*3*/ TEST(!!s);
+	free(s);
+	s = ft_substr(str, 0, 5);
+	/*4*/ TEST(strcmp(s, "hello") == 0);
+	free(s);
 	str = strdup("0123456789");
 	s = ft_substr(str, 9, 10);
-	/*6*/ TEST(!strcmp(s, "9"));
-	/*7*/ TEST(strlen(s) == 1);
+	/*5*/ TEST(!strcmp(s, "9"));
+	/*6*/ TEST(strlen(s) == 1);
+	free(str);
+	free(s);
 
 	return test_failures;
 }
