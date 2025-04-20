@@ -10,8 +10,18 @@ int test_strtrim()
 
 	str = ft_strtrim("ababaaaMy name is Hieubbaaabbab", "ab");
 	/*1*/TEST(!strcmp(str, "My name is Hieu"));
-	/*1*/TEST(!strcmp(str, "hieu"));
-	/*1*/TEST(!strcmp(str, "hieu"));
+	free(str);
+	str = ft_strtrim("aaxxxxxxhieu", "ax");
+	/*2*/TEST(!strcmp(str, "hieu"));
+	free(str);
+	str = ft_strtrim("hieuaaaxxxx", "xa");
+	/*3*/TEST(!strcmp(str, "hieu"));
+	free(str);
+	str = ft_strtrim(" xxxx xxx  ", "x ");
+	/*4*/TEST(!strcmp(str, ""));
+	free(str);
+	str = ft_strtrim("abcdba", "acb");
+	/*4*/TEST(!strcmp(str, "d"));
 	free(str);
 	return test_failures;
 }

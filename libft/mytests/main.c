@@ -28,5 +28,6 @@ int main()
 	test_substr();
 	test_strjoin();
 	test_strtrim();
+	printf("\n");
 	return 0;
 }

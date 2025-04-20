@@ -24,7 +24,7 @@
 		printf(RED "%d.KO" RESET " %s:%d ", test_count, __FILE__, __LINE__);\
 		 test_failures++;\
 	} else {\
-	printf(GREEN "%d.OK " RESET, test_count);\
+		printf(GREEN "%d.OK " RESET, test_count);\
 	}\
 	} while (0)
 
