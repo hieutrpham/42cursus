@@ -14,7 +14,7 @@
 #define RESET   "\033[0m"
 
 #define TITLE(title) do {\
-    printf(YELLOW "\n=== Testing %s ===\n" RESET, title); \
+    printf(YELLOW "\n%s:\t" RESET, title); \
 } while (0)
 
 #define TEST(condition) \

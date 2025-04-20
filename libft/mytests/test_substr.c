@@ -17,6 +17,7 @@ int test_substr()
 	str = strdup("0123456789");
 	s = ft_substr(str, 9, 10);
 	/*6*/ TEST(!strcmp(s, "9"));
+	/*7*/ TEST(strlen(s) == 1);
 
 	return test_failures;
 }
