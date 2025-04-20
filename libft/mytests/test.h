@@ -52,4 +52,6 @@ int test_toupper();
 int test_calloc();
 int test_strdup();
 int test_substr();
+int test_strjoin();
+int test_strtrim();
 #endif // !TEST_H

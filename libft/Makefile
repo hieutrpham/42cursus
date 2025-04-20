@@ -25,7 +25,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar rcs $@ $^
-	@printf "$(GREEN)libft.a created successfully!$(RESET)"
+	@printf "$(GREEN)libft.a created successfully!$(RESET)\n"
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c
 	@$(CC) $(CFLAGS) -I. -c -o $@ $<
