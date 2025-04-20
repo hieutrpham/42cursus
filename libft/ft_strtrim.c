@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
+#include <stdio.h>
 
 static int	istrim(char c, char const *set)
 {
@@ -44,7 +45,7 @@ static int trimend(char const *s1, char const *set)
 {
 	int	end;
 
-	end = ft_strlen(s1);
+	end = ft_strlen(s1) - 1;
 	while (s1[end])
 	{
 		if (istrim(s1[end], set))
@@ -66,6 +67,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	str = malloc(end - start + 1);
 	if (!str)
 		return NULL;
-	ft_strlcpy(str, &s1[start], end - start);
+	ft_strlcpy(str, &s1[start], end - start + 2);
 	return str;
 }
