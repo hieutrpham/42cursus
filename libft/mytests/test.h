@@ -54,4 +54,5 @@ int test_strdup();
 int test_substr();
 int test_strjoin();
 int test_strtrim();
+int test_split();
 #endif // !TEST_H

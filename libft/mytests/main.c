@@ -28,6 +28,7 @@ int main()
 	test_substr();
 	test_strjoin();
 	test_strtrim();
+	test_split();
 	printf("\n");
 	return 0;
 }
