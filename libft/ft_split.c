@@ -18,6 +18,19 @@ static int	issep(char c, char sep)
 	return (0);
 }
 
+static void	ft_free(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
 static int	count_word(const char *s, char c)
 {
 	int	word_count;
@@ -55,6 +68,8 @@ char	**ft_split(char const *s, char c)
 	flag = 0;
 	i = -1;
 	arr = ft_calloc((count_word(s, c) + 1), sizeof(char *));
+	if (!arr)
+		return (NULL);
 	while (s[++i])
 	{
 		if (!issep(s[i], c) && flag == 0)
@@ -66,10 +81,15 @@ char	**ft_split(char const *s, char c)
 		{
 			flag = 0;
 			arr[j] = ft_substr(s, start, i - start);
-			j++;
+			if (!arr[j++])
+				ft_free(arr);
 		}
 	}
 	if (flag == 1)
+	{
 		arr[j] = ft_substr(s, start, i - start);
+		if (!arr[j])
+			ft_free(arr);
+	}
 	return (arr);
 }

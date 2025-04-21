@@ -1,6 +1,6 @@
 #include "test.h"
 
-void ft_free(char **arr)
+static void ft_free(char **arr)
 {
 	int i = 0;
 
