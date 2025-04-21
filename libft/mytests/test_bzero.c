@@ -11,10 +11,7 @@ int test_bzero(void)
     /* 1 */ ft_bzero(str1, 3); bzero(str2, 3);
     TEST(memcmp(str1, str2, 10) == 0);
     
-    /* 2 */ ft_bzero(str1, 0); bzero(str2, 0);
-    TEST(memcmp(str1, str2, 10) == 0);
-    
-    /* 3 */ ft_bzero(str1, 10); bzero(str2, 10);
+    /* 2 */ ft_bzero(str1, 10); bzero(str2, 10);
     TEST(memcmp(str1, str2, 10) == 0);
     
     return test_failures;

@@ -19,13 +19,13 @@ static int	istrim(char c, char const *set)
 	while (set[i])
 	{
 		if (c == set[i])
-			return 1;
+			return (1);
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
-static int trimstart(char const *s1, char const *set)
+static int	trimstart(char const *s1, char const *set)
 {
 	int	start;
 
@@ -35,12 +35,12 @@ static int trimstart(char const *s1, char const *set)
 		if (istrim(s1[start], set))
 			start++;
 		else
-			break;
+			break ;
 	}
 	return (start);
 }
 
-static int trimend(char const *s1, char const *set)
+static int	trimend(char const *s1, char const *set)
 {
 	int	end;
 
@@ -50,9 +50,9 @@ static int trimend(char const *s1, char const *set)
 		if (istrim(s1[end], set))
 			end--;
 		else
-			break;
+			break ;
 	}
-	return end;
+	return (end);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
@@ -68,10 +68,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	end = trimend(s1, set);
 	str_len = end - start;
 	if (str_len < 0)
-		return (char*)ft_calloc(1, 1);
+		return ((char *)ft_calloc(1, 1));
 	str = malloc(str_len + 2);
 	if (!str)
-		return NULL;
+		return (NULL);
 	while (i <= str_len)
 	{
 		str[i] = s1[start];
@@ -79,5 +79,5 @@ char	*ft_strtrim(char const *s1, char const *set)
 		start++;
 	}
 	str[i] = 0;
-	return str;
+	return (str);
 }

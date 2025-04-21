@@ -14,21 +14,21 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t s_len;
-	char *str;
-	size_t i;
+	size_t	s_len;
+	char	*str;
+	size_t	i;
 
 	i = 0;
 	s_len = ft_strlen(s);
 	if (start >= s_len)
-		return ft_strdup("");
+		return (ft_strdup(""));
 	if (len > s_len)
 		len = s_len;
 	if (s_len - start < len)
 		len = s_len - start;
 	str = malloc(len + 1);
 	if (!str)
-		return NULL;
+		return (NULL);
 	while (i < len)
 	{
 		str[i] = s[start];
@@ -36,5 +36,5 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		start++;
 	}
 	str[i] = 0;
-	return str;
+	return (str);
 }
