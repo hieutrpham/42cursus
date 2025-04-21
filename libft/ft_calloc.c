@@ -18,8 +18,8 @@ void	*ft_calloc(size_t n, size_t size)
 	size_t			i;
 
 	i = 0;
-	if (n == 0 || size == 0)
-		return (malloc(0));
+	if (n && size >= SIZE_MAX / n)
+		return (NULL);
 	ptr = malloc(n * size);
 	if (!ptr)
 		return (NULL);
