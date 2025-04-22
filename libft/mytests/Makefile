@@ -6,7 +6,7 @@ INCLUDES = -I$(LIB_DIR) -I.
 TEST_PATH = .
 TEST_SRC = $(foreach D, $(TEST_PATH), $(wildcard $(D)/*.c))
 TEST_OBJ = $(patsubst %.c, %.o, $(TEST_SRC))
-VAL = valgrind --trace-children=yes --track-origins=yes --show-leak-kinds=all --leak-check=full
+VAL = valgrind --tool=memcheck --trace-children=yes --track-origins=yes --show-leak-kinds=all --leak-check=full
 NAME = test_all.out
 
 all: test

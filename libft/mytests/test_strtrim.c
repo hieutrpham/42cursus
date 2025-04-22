@@ -21,7 +21,10 @@ int test_strtrim()
 	/*4*/TEST(!strcmp(str, ""));
 	free(str);
 	str = ft_strtrim("abcdba", "acb");
-	/*4*/TEST(!strcmp(str, "d"));
+	/*5*/TEST(!strcmp(str, "d"));
+	free(str);
+	str = ft_strtrim("--------", "-");
+	/*6*/TEST(!strcmp(str, ""));
 	free(str);
 	return test_failures;
 }

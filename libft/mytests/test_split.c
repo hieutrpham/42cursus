@@ -29,5 +29,15 @@ int test_split()
 	arr = ft_split("", ',');
 	/*5*/TEST(arr[0] == NULL);
 	ft_free(arr);
+	arr = ft_split("mom", 0);
+	/*6*/TEST(!strcmp(arr[0], "mom"));
+	/*7*/TEST(arr[1] == NULL);
+	ft_free(arr);
+	arr = ft_split("      ", ' ');
+	/*8*/TEST(arr[0] == NULL);
+	ft_free(arr);
+	arr = ft_split("  x   ", ' ');
+	/*9*/TEST(!strcmp(arr[0], "x"));
+	ft_free(arr);
 	return test_failures;
 }
