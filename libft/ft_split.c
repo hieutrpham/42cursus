@@ -56,6 +56,13 @@ static int	count_word(const char *s, char c)
 	return (word_count);
 }
 
+void init_vars(int *i, int *flag, int *j)
+{
+	*j = 0;
+	*flag = 0;
+	*i = -1;
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**arr;
@@ -64,12 +71,8 @@ char	**ft_split(char const *s, char c)
 	int		flag;
 	int		j;
 
-	j = 0;
-	flag = 0;
-	i = -1;
+	init_vars(&i, &flag, &j);
 	arr = ft_calloc((count_word(s, c) + 1), sizeof(char *));
-	if (!arr)
-		return (NULL);
 	while (s[++i])
 	{
 		if (!issep(s[i], c) && flag == 0)
@@ -81,15 +84,9 @@ char	**ft_split(char const *s, char c)
 		{
 			flag = 0;
 			arr[j] = ft_substr(s, start, i - start);
-			if (!arr[j++])
-				ft_free(arr);
 		}
 	}
 	if (flag == 1)
-	{
 		arr[j] = ft_substr(s, start, i - start);
-		if (!arr[j])
-			ft_free(arr);
-	}
 	return (arr);
 }
