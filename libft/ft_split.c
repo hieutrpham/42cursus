@@ -11,26 +11,6 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-static int	issep(char c, char sep)
-{
-	if (c == sep)
-		return (1);
-	return (0);
-}
-
-static void	ft_free(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
 static int	count_word(const char *s, char c)
 {
 	int	word_count;
@@ -40,23 +20,23 @@ static int	count_word(const char *s, char c)
 	flag = 0;
 	i = 0;
 	word_count = 0;
-	while (s[i] && issep(s[i], c))
+	while (s[i] && s[i] == c)
 		i++;
 	while (s[i])
 	{
-		if (!issep(s[i], c) && flag == 0)
+		if (s[i] != c && flag == 0)
 		{
 			flag = 1;
 			word_count++;
 		}
-		else if (issep(s[i], c))
+		else if (s[i] == c)
 			flag = 0;
 		i++;
 	}
 	return (word_count);
 }
 
-void init_vars(int *i, int *flag, int *j)
+void	init_vars(int *i, int *flag, int *j)
 {
 	*j = 0;
 	*flag = 0;
@@ -75,15 +55,15 @@ char	**ft_split(char const *s, char c)
 	arr = ft_calloc((count_word(s, c) + 1), sizeof(char *));
 	while (s[++i])
 	{
-		if (!issep(s[i], c) && flag == 0)
+		if (s[i] != c && flag == 0)
 		{
 			flag = 1;
 			start = i;
 		}
-		else if (issep(s[i], c) && flag == 1)
+		else if (s[i] == c && flag == 1)
 		{
 			flag = 0;
-			arr[j] = ft_substr(s, start, i - start);
+			arr[j++] = ft_substr(s, start, i - start);
 		}
 	}
 	if (flag == 1)
