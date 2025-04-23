@@ -55,4 +55,7 @@ int test_substr();
 int test_strjoin();
 int test_strtrim();
 int test_split();
+int test_itoa();
+int test_strmapi();
+int test_striteri();
 #endif // !TEST_H

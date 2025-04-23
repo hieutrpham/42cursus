@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 09:54:30 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/23 16:00:21 by trupham          ###   ########.fr       */
+/*   Created: 2025/04/23 16:12:44 by trupham           #+#    #+#             */
+/*   Updated: 2025/04/23 16:47:11 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	int	sum;
-	const unsigned char *l1;
-	const unsigned char *l2;
+	int		i;
 
-	l1 = (const unsigned char *)s1;
-	l2 = (const unsigned char *)s2;
-	sum = 0;
-	while (n && (*l1 || *l2))
+	i = 0;
+	while (s[i])
 	{
-		sum = *l1 - *l2;
-		if (sum != 0)
-			break ;
-		n--;
-		l1++;
-		l2++;
+		f(i, &s[i]);
+		i++;
 	}
-	return (sum);
 }

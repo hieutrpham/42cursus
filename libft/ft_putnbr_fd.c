@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 09:54:30 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/23 16:00:21 by trupham          ###   ########.fr       */
+/*   Created: 2025/04/23 18:00:29 by trupham           #+#    #+#             */
+/*   Updated: 2025/04/23 18:08:11 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void ft_putnbr_fd(int n, int fd)
 {
-	int	sum;
-	const unsigned char *l1;
-	const unsigned char *l2;
+	long tmp;
 
-	l1 = (const unsigned char *)s1;
-	l2 = (const unsigned char *)s2;
-	sum = 0;
-	while (n && (*l1 || *l2))
+	tmp = (long)n;
+	if (tmp < 0)
 	{
-		sum = *l1 - *l2;
-		if (sum != 0)
-			break ;
-		n--;
-		l1++;
-		l2++;
+		write(fd, "-", 1);
+		tmp = -tmp;
 	}
-	return (sum);
 }

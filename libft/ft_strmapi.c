@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 09:54:30 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/23 16:00:21 by trupham          ###   ########.fr       */
+/*   Created: 2025/04/23 15:49:58 by trupham           #+#    #+#             */
+/*   Updated: 2025/04/23 16:12:22 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int	sum;
-	const unsigned char *l1;
-	const unsigned char *l2;
+	char	*str;
+	int		i;
+	int		j;
 
-	l1 = (const unsigned char *)s1;
-	l2 = (const unsigned char *)s2;
-	sum = 0;
-	while (n && (*l1 || *l2))
+	i = 0;
+	j = 0;
+	if (!f)
+		return ((char *)s);
+	str = ft_calloc(ft_strlen(s) + 1, sizeof(char));
+	if (!str)
+		return (NULL);
+	while (s[i])
 	{
-		sum = *l1 - *l2;
-		if (sum != 0)
-			break ;
-		n--;
-		l1++;
-		l2++;
+		str[j] = f(i, s[i]);
+		i++;
+		j++;
 	}
-	return (sum);
+	return (str);
 }

@@ -29,6 +29,9 @@ int main()
 	test_strjoin();
 	test_strtrim();
 	test_split();
+	test_itoa();
+	test_strmapi();
+	test_striteri();
 	printf("\n");
 	return 0;
 }
