@@ -36,17 +36,22 @@ static int	count_word(const char *s, char c)
 	return (word_count);
 }
 
-static void	ft_free(char **arr)
+static int	ft_free(char **arr, char **curr)
 {
 	int	i;
 
 	i = 0;
-	while (arr[i])
+	if (*curr == NULL)
 	{
-		free(arr[i]);
-		i++;
+		while (arr[i])
+		{
+			free(arr[i]);
+			i++;
+		}
+		free(arr);
+		return (1);
 	}
-	free(arr);
+	return (0);
 }
 
 // return pointer to the start of the word
@@ -73,23 +78,23 @@ static const char	*get_next_word(const char *s, char c, int *len)
 char	**ft_split(char const *s, char c)
 {
 	char		**arr;
-	int			j;
 	int			len;
 	const char	*start;
+	char		**curr;
 
-	j = 0;
 	arr = ft_calloc((count_word(s, c) + 1), sizeof(char *));
 	if (!arr)
 		return (NULL);
+	curr = arr;
 	while (*s)
 	{
 		start = get_next_word(s, c, &len);
 		if (start != NULL)
 		{
-			arr[j] = ft_substr(start, 0, len);
-			if (!arr[j])
-				ft_free(arr);
-			j++;
+			*curr = ft_substr(start, 0, len);
+			if (ft_free(arr, &(*curr)))
+				return (NULL);
+			curr++;
 			s = start + len;
 		}
 		else
@@ -97,34 +102,3 @@ char	**ft_split(char const *s, char c)
 	}
 	return (arr);
 }
-/*
-char	**ft_split2(char const *s, char c)
-{
-	char	**arr;
-	int		start;
-	int		i;
-	int		flag;
-	int		j;
-
-	init_vars(&i, &flag, &j);
-	arr = ft_calloc((count_word(s, c) + 1), sizeof(char *));
-	if (!arr)
-		return (NULL);
-	while (s[++i])
-	{
-		if (s[i] != c && flag == 0)
-		{
-			flag = 1;
-			start = i;
-		}
-		else if (s[i] == c && flag == 1)
-		{
-			flag = 0;
-			arr[j++] = ft_substr(s, start, i - start);
-		}
-	}
-	if (flag == 1)
-		arr[j] = ft_substr(s, start, i - start);
-	return (arr);
-}
-*/
