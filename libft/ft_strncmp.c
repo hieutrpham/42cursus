@@ -14,9 +14,9 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	sum;
-	const unsigned char *l1;
-	const unsigned char *l2;
+	int					sum;
+	const unsigned char	*l1;
+	const unsigned char	*l2;
 
 	l1 = (const unsigned char *)s1;
 	l2 = (const unsigned char *)s2;
