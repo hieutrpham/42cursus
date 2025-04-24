@@ -11,25 +11,25 @@
 /* ************************************************************************** */
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *smol, size_t len)
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
 	int	i;
 	int	j;
 	int	tmplen;
 
 	i = 0;
-	if (*smol == 0)
+	if (*little == 0)
 		return ((char *)big);
 	while (big[i] && len)
 	{
 		j = 0;
 		tmplen = len;
-		while (tmplen && smol[j] && big[i + j] && smol[j] == big[i + j])
+		while (tmplen && little[j] && big[i + j] && little[j] == big[i + j])
 		{
 			j++;
 			tmplen--;
 		}
-		if (!smol[j])
+		if (!little[j])
 			return (&((char *)big)[i]);
 		i++;
 		len--;

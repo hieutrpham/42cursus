@@ -11,6 +11,7 @@ int test_isalpha(void)
     /* 3 */ TEST(!!ft_isalpha('0') == !!isalpha('0'));
     /* 4 */ TEST(!!ft_isalpha('@') == !!isalpha('@'));
     /* 5 */ TEST(!!ft_isalpha(-1) == !!isalpha(-1));
+    /* 6 */ TEST(!!ft_isalpha('a' + 256) == !!isalpha('a' + 256));
     
     return test_failures;
 }

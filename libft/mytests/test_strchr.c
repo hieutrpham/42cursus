@@ -11,6 +11,7 @@ int test_strchr(void)
     /* 1 */ TEST(ft_strchr(str, ' ') == strchr(str, ' '));
     /* 2 */ TEST(ft_strchr(str, 'z') == strchr(str, 'z'));
     /* 3 */ TEST(ft_strchr(str, '\0') == strchr(str, '\0'));
+    /* 4 */ TEST(ft_strchr(str, 't' + 256) == strchr(str, 't' + 256));
     
     return test_failures;
 }

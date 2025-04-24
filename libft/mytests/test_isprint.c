@@ -10,6 +10,7 @@ int test_isprint(void)
     /* 2 */ TEST(!!ft_isprint('~') == !!isprint('~'));
     /* 3 */ TEST(!!ft_isprint(31) == !!isprint(31));
     /* 4 */ TEST(!!ft_isprint(127) == !!isprint(127));
+    /* 5 */ TEST(!!ft_isprint('a' + 256) == !!isprint('a' + 256));
     
     return test_failures;
 }

@@ -17,18 +17,18 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	int					sum;
 	const unsigned char	*l1;
 	const unsigned char	*l2;
+	size_t				index;
 
+	index = 0;
 	l1 = (const unsigned char *)s1;
 	l2 = (const unsigned char *)s2;
 	sum = 0;
-	while (n && (*l1 || *l2))
+	while ((l1[index] || l2[index]) && index < n)
 	{
-		sum = *l1 - *l2;
+		sum = l1[index] - l2[index];
 		if (sum != 0)
 			break ;
-		n--;
-		l1++;
-		l2++;
+		index++;
 	}
 	return (sum);
 }

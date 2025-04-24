@@ -12,6 +12,7 @@ int test_memcmp(void)
     /* 1 */ TEST(ft_memcmp(s1, s2, 4) == memcmp(s1, s2, 4));
     /* 2 */ TEST(ft_memcmp(s1, s2, 5) == memcmp(s1, s2, 5));
     /* 3 */ TEST(ft_memcmp(s1, s1, 5) == memcmp(s1, s1, 5));
+    /* 4 */ TEST(!!ft_memcmp("", "hel", 3) == !!memcmp("", "hel", 3));
     
     return test_failures;
 }

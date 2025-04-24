@@ -10,6 +10,7 @@ int test_isascii(void)
     /* 2 */ TEST(ft_isascii(127) == isascii(127));
     /* 3 */ TEST(ft_isascii(128) == isascii(128));
     /* 4 */ TEST(ft_isascii(-1) == isascii(-1));
+    /* 5 */ TEST(ft_isascii('a' + 256) == isascii('a' + 256));
     
     return test_failures;
 }
