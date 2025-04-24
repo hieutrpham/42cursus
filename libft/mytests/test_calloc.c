@@ -18,5 +18,8 @@ int test_calloc()
 	s = ft_calloc(0, 5);
 	/*3*/TEST(s != NULL);
 	free(s);
+	s = ft_calloc(INT_MIN, 5);
+	/*4*/TEST(s == NULL);
+	free(s);
 	return test_failures;
 }

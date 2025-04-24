@@ -12,10 +12,8 @@ int test_strncmp(void)
     /* 1 */ TEST(ft_strncmp(s1, s2, 4) == strncmp(s1, s2, 4));
     /* 2 */ TEST(ft_strncmp(s1, s2, 5) == strncmp(s1, s2, 5));
     /* 3 */ TEST(ft_strncmp(s1, s1, 5) == strncmp(s1, s1, 5));
-    /* 4 */ TEST(ft_strncmp("abc\200", "abc\0", 6) == strncmp("abc\200", "abc\0", 6));
-    /* 5 */ TEST(ft_strncmp("eirej", "e", 42) == strncmp("eirej", "e", 42));
+    /* 4 */ TEST(!!ft_strncmp("abc\200", "abc\0", 6) == !!strncmp("abc\200", "abc\0", 6));
+    /* 5 */ TEST(!!ft_strncmp("eirej", "e", 42) == !!strncmp("eirej", "e", 42));
     
-	printf("ft: %d\n", ft_strncmp(s1, s2, 4));
-	printf("real: %d\n", strncmp(s1, s2, 4));
     return test_failures;
 }
