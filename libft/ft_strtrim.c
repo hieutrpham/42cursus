@@ -44,6 +44,8 @@ static int	trimend(char const *s1, char const *set)
 {
 	int	end;
 
+	if (!s1)
+		return (-1);
 	end = ft_strlen(s1) - 1;
 	while (end > 0)
 	{
@@ -58,15 +60,13 @@ static int	trimend(char const *s1, char const *set)
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*str;
-	int		start;
-	int		end;
 	int		i;
 	int		str_len;
+	int		start;
 
-	i = 0;
 	start = trimstart(s1, set);
-	end = trimend(s1, set);
-	str_len = end - start;
+	i = 0;
+	str_len = trimend(s1, set) - trimstart(s1, set);
 	if (str_len < 0)
 		return ((char *)ft_calloc(1, 1));
 	str = malloc(str_len + 2);
