@@ -54,7 +54,6 @@ static int	ft_free(char **arr, char **curr)
 	return (0);
 }
 
-// return pointer to the start of the word
 static const char	*get_next_word(const char *s, char c, int *len)
 {
 	const char	*start;
