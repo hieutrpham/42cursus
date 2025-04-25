@@ -15,7 +15,7 @@ test: $(NAME)
 	@$(VAL) ./$(NAME)
 
 $(NAME): $(TEST_OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(TEST_OBJ) $(LIBFT) -o $@ -lbsd
+	@$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@ -lbsd
 
 cleanlib:
 	make fclean -C $(LIB_DIR)
