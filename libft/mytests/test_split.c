@@ -39,5 +39,7 @@ int test_split()
 	arr = ft_split("  x   ", ' ');
 	/*9*/TEST(!strcmp(arr[0], "x"));
 	ft_free(arr);
+	arr = ft_split(NULL, ' ');
+	/*10*/TEST(arr == NULL);
 	return test_failures;
 }

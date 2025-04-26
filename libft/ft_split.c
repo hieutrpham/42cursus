@@ -6,7 +6,7 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:15:49 by trupham           #+#    #+#             */
-/*   Updated: 2025/04/21 12:01:43 by trupham          ###   ########.fr       */
+/*   Updated: 2025/04/26 21:08:00 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -74,24 +74,20 @@ static const char	*get_next_word(const char *s, char c, int *len)
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**split(char const *s, char c, char ***arr)
 {
-	char		**arr;
-	int			len;
 	const char	*start;
 	char		**curr;
+	int			len;
 
-	arr = ft_calloc((count_word(s, c) + 1), sizeof(char *));
-	if (!arr)
-		return (NULL);
-	curr = arr;
+	curr = *arr;
 	while (*s)
 	{
 		start = get_next_word(s, c, &len);
 		if (start != NULL)
 		{
 			*curr = ft_substr(start, 0, len);
-			if (ft_free(arr, &(*curr)))
+			if (ft_free(*arr, &(*curr)))
 				return (NULL);
 			curr++;
 			s = start + len;
@@ -99,5 +95,17 @@ char	**ft_split(char const *s, char c)
 		else
 			s++;
 	}
-	return (arr);
+	return (*arr);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char		**arr;
+
+	if (!s)
+		return (NULL);
+	arr = ft_calloc((count_word(s, c) + 1), sizeof(char *));
+	if (!arr)
+		return (NULL);
+	return (split(s, c, &arr));
 }
