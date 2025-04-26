@@ -6,13 +6,13 @@
 #    By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/15 11:45:16 by trupham           #+#    #+#              #
-#    Updated: 2025/04/15 12:15:54 by trupham          ###   ########.fr        #
+#    Updated: 2025/04/26 15:13:58 by trupham          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC=cc
-CFLAGS = -Wall -Wextra -Werror
-SRC =	ft_atoi.c \
+CC:=cc
+CFLAGS := -Wall -Wextra -Werror
+SRC :=	ft_atoi.c \
 		ft_bzero.c \
 		ft_calloc.c \
 		ft_isalnum.c \
@@ -47,13 +47,29 @@ SRC =	ft_atoi.c \
 		ft_tolower.c \
 		ft_toupper.c \
 
-OBJ = $(patsubst %.c, %.o, $(SRC))
-NAME = libft.a
+BONUS:= ft_lstadd_back_bonus.c \
+		ft_lstadd_front_bonus.c \
+		ft_lstclear_bonus.c \
+		ft_lstdelone_bonus.c \
+		ft_lstiter_bonus.c \
+		ft_lstlast_bonus.c \
+		ft_lstmap_bonus.c \
+		ft_lstnew_bonus.c \
+		ft_lstsize_bonus.c \
 
-GREEN    = \033[32m
-RESET    = \033[0m
+OBJ := $(patsubst %.c, %.o, $(SRC))
+OBJ_BONUS := $(patsubst %.c, %.o, $(BONUS))
+
+NAME := libft.a
+
+GREEN    := \033[32m
+RESET    := \033[0m
 
 all: $(NAME)
+
+bonus: $(NAME) $(OBJ_BONUS)
+	@ar rcs $^
+	@printf "$(GREEN)Bonus created successfully!$(RESET)\n"
 
 $(NAME): $(OBJ)
 	@ar rcs $@ $^
@@ -63,7 +79,7 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) -I. -c -o $@ $<
 
 clean:
-	@rm -rf $(OBJ)
+	@rm -rf $(OBJ) $(OBJ_BONUS)
 
 fclean: clean
 	@rm -f $(NAME)

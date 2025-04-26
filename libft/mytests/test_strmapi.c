@@ -15,5 +15,7 @@ int test_strmapi()
 	free(str);
 	/*2*/ TEST(!strcmp(str = ft_strmapi("", f), ""));
 	free(str);
+	/*3*/ TEST(ft_strmapi(NULL, f) == NULL);
+	/*4*/ TEST(ft_strmapi("asdf", NULL) == NULL);
 	return test_failures;
 }

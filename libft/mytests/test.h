@@ -22,7 +22,7 @@
 	do {\
 	test_count++; \
 	if (!(condition)) {\
-		printf(RED "%d.KO" RESET " %s:%d ", test_count, __FILE__, __LINE__);\
+		printf(RED "%d.KO " RESET, test_count); \
 		 test_failures++;\
 	} else {\
 		printf(GREEN "%d.OK " RESET, test_count);\
