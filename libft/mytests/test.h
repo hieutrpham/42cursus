@@ -62,4 +62,6 @@ int test_strmapi();
 int test_striteri();
 int test_putchar_fd();
 int test_putstr_fd();
+int test_putendl_fd();
+int test_putnbr_fd();
 #endif // !TEST_H

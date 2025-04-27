@@ -34,6 +34,8 @@ int main()
 	test_striteri();
 	test_putchar_fd();
 	test_putstr_fd();
+	test_putendl_fd();
+	test_putnbr_fd();
 	printf("\n");
 	return 0;
 }
