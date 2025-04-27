@@ -65,4 +65,13 @@ int test_putstr_fd();
 int test_putendl_fd();
 int test_putnbr_fd();
 int test_lstnew();
+int test_lstadd_back();
+int test_lstadd_front();
+int test_lstclear();
+int test_lstdelone();
+int test_lstiter();
+int test_lstlast();
+int test_lstmap();
+int test_lstnew();
+int test_lstsize();
 #endif // !TEST_H
