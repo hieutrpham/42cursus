@@ -1,22 +1,28 @@
 #include "test.h"
-
-static void increment_int(void *ptr)
+void *addOne(void *p) 
 {
-	*(int*)ptr += 1;
+	void *r = malloc(sizeof(int)); 
+	*(int*)r = *(int*)p + 1;
+	return (r);
 }
+
 int test_lstmap()
 {
 	int test_count = 0;
 	int test_failures = 0;
 	TITLE("ft_lstmap");
-	int nodes_visited = 0;
-	t_list *list = NULL;
-	ft_lstadd_back(&list, ft_lstnew(&nodes_visited));
-	ft_lstadd_back(&list, ft_lstnew(&nodes_visited));
-	ft_lstadd_back(&list, ft_lstnew(&nodes_visited));
-	ft_lstiter(list, increment_int);
-	TEST(nodes_visited == 3);
-	ft_lstclear(&list, free);
+	int tab[] = {0, 1, 2, 3};
+	t_list * l =  ft_lstnew(tab);
+	for (int i = 1; i < 4; ++i)
+		ft_lstadd_back(&l, ft_lstnew(tab + i));
+	t_list * m = ft_lstmap(l, addOne, free);
+	t_list * tmp = l;
+	/* 1 2 3 4 */ for (int i = 0; i < 4; ++i)
+	{
+		TEST(*(int*)tmp->content == i);
+		tmp = (t_list *)tmp->next;
+	}
+	ft_lstclear(&l, free);
 	return test_failures;
 }
 
