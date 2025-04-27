@@ -36,6 +36,7 @@ int main()
 	test_putstr_fd();
 	test_putendl_fd();
 	test_putnbr_fd();
+	test_lstnew();
 	printf("\n");
 	return 0;
 }
