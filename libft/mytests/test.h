@@ -1,6 +1,7 @@
 #ifndef TEST_H
 #include <string.h>
 #include <sys/types.h>
+#include <fcntl.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,4 +60,6 @@ int test_split();
 int test_itoa();
 int test_strmapi();
 int test_striteri();
+int test_putchar_fd();
+int test_putstr_fd();
 #endif // !TEST_H

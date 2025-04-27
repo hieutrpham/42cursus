@@ -32,6 +32,8 @@ int main()
 	test_itoa();
 	test_strmapi();
 	test_striteri();
+	test_putchar_fd();
+	test_putstr_fd();
 	printf("\n");
 	return 0;
 }
