@@ -1,5 +1,7 @@
 libftTester
 *.vim
+mytests
+.gitignore
 # Prerequisites
 *.d
 
