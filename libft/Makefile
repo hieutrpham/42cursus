@@ -76,7 +76,7 @@ bonus : $(BONUS_NAME)
 
 $(BONUS_NAME): $(NAME) $(OBJ_BONUS)
 	@ar rcs $^
-	@printf "$(GREEN)$(BONUS_NAME) created"
+	@printf "$(GREEN)$(BONUS_NAME) created successfully!$(RESET)\n"
 	@touch $(BONUS_NAME)
 
 %.o: %.c
