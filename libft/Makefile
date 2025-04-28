@@ -59,6 +59,7 @@ BONUS:= ft_lstadd_back_bonus.c \
 
 OBJ := $(patsubst %.c, %.o, $(SRC))
 OBJ_BONUS := $(patsubst %.c, %.o, $(BONUS))
+BONUS_NAME := libftbonus
 
 NAME := libft.a
 
@@ -67,23 +68,26 @@ RESET    := \033[0m
 
 all: $(NAME)
 
-bonus: $(NAME) $(OBJ_BONUS)
-	@ar rcs $^
-	@printf "$(GREEN)Bonus created successfully!$(RESET)\n"
-
 $(NAME): $(OBJ)
 	@ar rcs $@ $^
 	@printf "$(GREEN)$(NAME) created successfully!$(RESET)\n"
+
+bonus : $(BONUS_NAME)
+
+$(BONUS_NAME): $(NAME) $(OBJ_BONUS)
+	@ar rcs $^
+	@printf "$(GREEN)$(BONUS_NAME) created"
+	@touch $(BONUS_NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -I. -c -o $@ $<
 
 clean:
-	@rm -rf $(OBJ) $(OBJ_BONUS)
+	@rm -rf $(OBJ) $(OBJ_BONUS) $(BONUS_NAME)
 
 fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus

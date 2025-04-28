@@ -27,6 +27,9 @@ int test_substr()
 	/*6*/ TEST(strlen(s) == 1);
 	free(str);
 	free(s);
+	str = NULL;
+	s = ft_substr(str, 1, 2);
+	/*7*/TEST(s == NULL);
 
 	return test_failures;
 }
