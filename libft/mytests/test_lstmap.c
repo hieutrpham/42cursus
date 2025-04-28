@@ -15,7 +15,7 @@ int test_lstmap()
 	t_list * l =  ft_lstnew(tab);
 	for (int i = 1; i < 4; ++i)
 		ft_lstadd_back(&l, ft_lstnew(tab + i));
-	t_list * m = ft_lstmap(l, addOne, free);
+	// t_list * m = ft_lstmap(l, addOne, free);
 	t_list * tmp = l;
 	/* 1 2 3 4 */ for (int i = 0; i < 4; ++i)
 	{

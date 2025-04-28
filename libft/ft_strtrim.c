@@ -64,6 +64,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		str_len;
 	int		start;
 
+	if (!s1)
+		return (NULL);
 	start = trimstart(s1, set);
 	i = 0;
 	str_len = trimend(s1, set) - trimstart(s1, set);

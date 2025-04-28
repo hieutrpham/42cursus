@@ -26,5 +26,7 @@ int test_strtrim()
 	str = ft_strtrim("--------", "-");
 	/*6*/TEST(!strcmp(str, ""));
 	free(str);
+	str = ft_strtrim(NULL, "-");
+	/*6*/TEST(str == NULL);
 	return test_failures;
 }

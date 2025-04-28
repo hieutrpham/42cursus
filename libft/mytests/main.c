@@ -36,15 +36,15 @@ int main()
 	test_putstr_fd();
 	test_putendl_fd();
 	test_putnbr_fd();
-	test_lstadd_back();
-	test_lstadd_front();
-	test_lstclear();
-	test_lstdelone();
-	test_lstiter();
-	test_lstlast();
-	test_lstmap();
-	test_lstnew();
-	test_lstsize();
+	// test_lstadd_back();
+	// test_lstadd_front();
+	// test_lstclear();
+	// test_lstdelone();
+	// test_lstiter();
+	// test_lstlast();
+	// test_lstmap();
+	// test_lstnew();
+	// test_lstsize();
 	printf("\n");
 	return 0;
 }

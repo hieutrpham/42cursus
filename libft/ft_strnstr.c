@@ -17,9 +17,11 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	int	j;
 	int	tmplen;
 
-	i = 0;
-	if (*little == 0)
+	if (!big)
+		return (NULL);
+	if (*little == 0 || !little)
 		return ((char *)big);
+	i = 0;
 	while (big[i] && len)
 	{
 		j = 0;
