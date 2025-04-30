@@ -11,6 +11,6 @@ int test_memchr(void)
     /* 1 */ TEST(ft_memchr(str, 'o', 11) == memchr(str, 'o', 11));
     /* 2 */ TEST(ft_memchr(str, 'z', 11) == memchr(str, 'z', 11));
     /* 3 */ TEST(ft_memchr(str, '\0', 12) == memchr(str, '\0', 12));
-    
+    /* 4 */ TEST(memchr("A\xffZ", 0xff, 3) == ft_memchr("A\xffZ", 0xff, 3));
     return test_failures;
 }
