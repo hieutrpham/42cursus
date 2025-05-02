@@ -41,15 +41,16 @@ main.c \
 
 TEST_OBJ = $(patsubst %.c, %.o, $(TEST_SRC))
 VAL = valgrind --tool=memcheck --trace-children=yes --track-origins=yes --show-leak-kinds=all --leak-check=full
+FSAN = -fsanitize=address
 NAME = test_all.out
 
 all: test
 
 test: $(NAME)
-	@$(VAL) ./$(NAME)
+	@./$(NAME)
 
 $(NAME): $(TEST_OBJ) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@ -lbsd
+	@$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@ -lbsd $(FSAN)
 
 cleanlib:
 	make fclean -C $(LIB_DIR)

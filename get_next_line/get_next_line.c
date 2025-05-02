@@ -19,7 +19,7 @@ int main()
 	size_t t;
 	int fd = open("hello.txt", O_RDONLY);
 
-	while (read(fd, str, 5))
+	while (read(fd, str, 4))
 		printf("%s\n", str);
 	close(fd);
 	return 0;
