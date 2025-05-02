@@ -15,13 +15,12 @@ char *get_next_line(int fd);
 
 int main()
 {
-	char str[1];
+	char str[6];
 	size_t t;
 	int fd = open("hello.txt", O_RDONLY);
 
 	while (read(fd, str, 5))
-	{
 		printf("%s\n", str);
-	}
+	close(fd);
 	return 0;
 }
