@@ -11,16 +11,36 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-char *get_next_line(int fd);
+char *get_next_line(int fd)
+{
+	t_list *node;
+
+	node = malloc(sizeof(t_list));
+	node->content = malloc(BUFFER_SIZE + 1);
+	ssize_t bytes_read = read(fd, node->content, BUFFER_SIZE);
+	char *result = node->content;
+	free(node);
+	result[bytes_read] = '\0';
+	return result;
+}
 
 int main()
 {
-	char str[6];
-	size_t t;
 	int fd = open("hello.txt", O_RDONLY);
+	char *line;
 
-	while (read(fd, str, 4))
-		printf("%s\n", str);
+	printf("%s\n", line = get_next_line(fd));
+	free(line);
+	printf("%s\n", line = get_next_line(fd));
+	free(line);
+	printf("%s\n", line = get_next_line(fd));
+	free(line);
+	printf("%s\n", line = get_next_line(fd));
+	free(line);
+	printf("%s\n", line = get_next_line(fd));
+	free(line);
+	printf("%s\n", line = get_next_line(fd));
+	free(line);
 	close(fd);
 	return 0;
 }

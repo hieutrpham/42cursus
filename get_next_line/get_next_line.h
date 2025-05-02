@@ -18,5 +18,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+#define BUFFER_SIZE 4
+
+typedef struct s_list {
+	void *content;
+	struct s_list *next;
+} t_list;
+
 char *get_next_line(int fd);
 #endif // !GET_NEXT_LINE_H
