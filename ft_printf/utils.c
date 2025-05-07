@@ -1,50 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 11:15:50 by trupham           #+#    #+#             */
-/*   Updated: 2025/05/07 10:43:15 by trupham          ###   ########.fr       */
+/*   Created: 2025/05/07 10:06:23 by trupham           #+#    #+#             */
+/*   Updated: 2025/05/07 10:43:36 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-int checktype(char c, va_list *args)
+int ft_putchar(int c)
 {
-	int count;
+	char t;
 
-	count = 0;
-	if (c == 'c')
-		count += ft_putchar(va_arg(*args, int));
-	if (c == 's')
-		count += ft_putstr(va_arg(*args, char *));
-	return count;
+	t = (char)c;
+	write(1, &t, 1);
+	return 1;
 }
-int ft_printf(const char *str, ...)
+
+int ft_putstr(const char *str)
 {
-	va_list args;
 	int count;
 
-	if (!str)
-		return -1;
 	count = 0;
-	va_start(args, str);
 	while (*str)
 	{
-		if (*str == '%')
-		{
-			str++;
-			count += checktype(*str, &args);
-		}
-		else
-		{
-			write(1, str, 1);
-			count++;
-		}
-		str++;
+		count++;
+		write(1, str++, 1);
 	}
-	va_end(args);
 	return count;
 }
