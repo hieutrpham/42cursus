@@ -2,8 +2,15 @@
 
 int main()
 {
-	int i = ft_printf("why %d %i", -123, 8239848);
-	printf("\n%d", i);
-	// printf("\n%d\n", ft_putnbr(-2312323));
+	// int p = 0;
+	// int i = ft_printf("%p", &p);
+	// printf("\n%d", i);
+	int i = ft_printf("%X %x", 123143, 42);
+	printf("\n");
+	printf("ft_printf: %d\n", i);
+	printf("\n");
+	printf("printf: %d\n", printf("%X %x", 123143, 42));
+	// char hexdigits[] = "0123456789abdcef";
+	// ft_putchar(hexdigits[15 % 16]);
 	return 0;
 }

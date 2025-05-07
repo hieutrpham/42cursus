@@ -6,7 +6,7 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:41:12 by trupham           #+#    #+#             */
-/*   Updated: 2025/05/07 11:52:21 by trupham          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:13:16 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 int ft_printf(const char *str, ...);
 int ft_putchar(int c);
 int ft_putstr(const char *str);
-int ft_putnbr(int n);
+int ft_putuint(unsigned int n);
+int ft_putint(int n);
+int ft_puthex(unsigned int n, char c);
 #endif // !FT_PRINT_F
