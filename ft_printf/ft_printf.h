@@ -6,7 +6,7 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 09:41:12 by trupham           #+#    #+#             */
-/*   Updated: 2025/05/07 10:43:03 by trupham          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:52:21 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h> // WARN: use for debug
+#include <stdlib.h>
 
 int ft_printf(const char *str, ...);
 int ft_putchar(int c);
 int ft_putstr(const char *str);
-int checktype(char c, va_list *args);
+int ft_putnbr(int n);
 #endif // !FT_PRINT_F

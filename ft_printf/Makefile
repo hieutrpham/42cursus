@@ -1,9 +1,9 @@
 CC:=cc
-#WARN:remove fsanitize before submit
-CFLAGS := -Wall -Wextra -Werror -fsanitize=address
+CFLAGS := -Wall -Wextra -Werror
 SRC := utils.c \
 	   ft_printf.c \
 	   test.c \
+	   ft_putnbr.c \
 
 OBJ := $(patsubst %.c, %.o, $(SRC))
 
