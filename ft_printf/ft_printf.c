@@ -6,7 +6,7 @@
 /*   By: trupham <trupham@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 11:15:50 by trupham           #+#    #+#             */
-/*   Updated: 2025/05/07 15:59:22 by trupham          ###   ########.fr       */
+/*   Updated: 2025/05/08 12:16:54 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -25,6 +25,8 @@ static int checktype(char c, va_list *args)
 		return ft_putuint(va_arg(*args, unsigned int));
 	else if (c == 'x' || c == 'X')
 		return ft_puthex(va_arg(*args, unsigned int), c);
+	else if (c == 'p')
+		return ft_putptr(va_arg(*args, uintptr_t));
 	return -1;
 }
 

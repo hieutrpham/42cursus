@@ -4,7 +4,8 @@ SRC := utils.c \
 	   test.c \
 	   ft_printf.c \
 	   ft_putnbr.c \
-	   ft_puthex.c
+	   ft_puthex.c \
+	   ft_putptr.c
 
 OBJ := $(patsubst %.c, %.o, $(SRC))
 
