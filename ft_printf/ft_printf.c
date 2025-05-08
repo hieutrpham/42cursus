@@ -11,28 +11,28 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-static int checktype(char c, va_list *args)
+static int	checktype(char c, va_list *args)
 {
 	if (c == 'c')
-		return ft_putchar(va_arg(*args, int));
+		return (ft_putchar(va_arg(*args, int)));
 	else if (c == 's')
-		return ft_putstr(va_arg(*args, char *));
+		return (ft_putstr(va_arg(*args, char *)));
 	else if (c == '%')
-		return write(1, "%", 1);
+		return (write(1, "%", 1));
 	else if (c == 'd' || c == 'i')
-		return ft_putint(va_arg(*args, int));
+		return (ft_putint(va_arg(*args, int)));
 	else if (c == 'u')
-		return ft_putuint(va_arg(*args, unsigned int));
+		return (ft_putuint(va_arg(*args, unsigned int)));
 	else if (c == 'x' || c == 'X')
-		return ft_puthex(va_arg(*args, unsigned int), c);
+		return (ft_puthex(va_arg(*args, unsigned int), c));
 	else if (c == 'p')
-		return ft_putptr(va_arg(*args, uintptr_t));
-	return -1;
+		return (ft_putptr(va_arg(*args, uintptr_t)));
+	return (-1);
 }
 
-static void t_print(const char *str, va_list *args, int *count)
+static void	t_print(const char *str, va_list *args, int *count)
 {
-	int type;
+	int	type;
 
 	while (*str)
 	{
@@ -41,7 +41,7 @@ static void t_print(const char *str, va_list *args, int *count)
 			str++;
 			type = checktype(*str, args);
 			if (type == -1)
-				return;
+				return ;
 			else
 				*count += type;
 		}
@@ -54,16 +54,16 @@ static void t_print(const char *str, va_list *args, int *count)
 	}
 }
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-	va_list args;
-	int count;
+	va_list	args;
+	int		count;
 
 	if (!str)
-		return -1;
+		return (-1);
 	count = 0;
 	va_start(args, str);
 	t_print(str, &args, &count);
 	va_end(args);
-	return count;
+	return (count);
 }

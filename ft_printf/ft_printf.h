@@ -10,20 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINT_F
-#define FT_PRINT_F
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-#include <unistd.h>
-#include <stdarg.h>
-#include <stdio.h> // WARN: use for debug
-#include <stdlib.h>
-#include <stdint.h>
+# include <stdarg.h>
+# include <stdint.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-int ft_printf(const char *str, ...);
-int ft_putchar(int c);
-int ft_putstr(const char *str);
-int ft_putuint(unsigned int n);
-int ft_putint(int n);
-int ft_puthex(uintptr_t n, char c);
-int ft_putptr(uintptr_t ptr);
-#endif // !FT_PRINT_F
+int	ft_printf(const char *str, ...);
+int	ft_putchar(int c);
+int	ft_putstr(const char *str);
+int	ft_putuint(unsigned int n);
+int	ft_putint(int n);
+int	ft_puthex(uintptr_t n, char c);
+int	ft_putptr(uintptr_t ptr);
+int	ft_ulen(unsigned int n);
+int	ft_ilen(int n);
+#endif

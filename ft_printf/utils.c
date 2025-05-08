@@ -11,18 +11,18 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-int ft_putchar(int c)
+int	ft_putchar(int c)
 {
-	char t;
+	char	t;
 
 	t = (char)c;
 	write(1, &t, 1);
-	return 1;
+	return (1);
 }
 
-int ft_putstr(const char *str)
+int	ft_putstr(const char *str)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (*str)
@@ -30,5 +30,40 @@ int ft_putstr(const char *str)
 		count++;
 		write(1, str++, 1);
 	}
-	return count;
+	return (count);
+}
+
+int	ft_ilen(int n)
+{
+	int		len;
+	long	tmp;
+
+	tmp = n;
+	len = 0;
+	if (tmp < 0)
+	{
+		tmp = -tmp;
+		len++;
+	}
+	while (tmp)
+	{
+		len++;
+		tmp = tmp / 10;
+	}
+	return (len);
+}
+
+int	ft_ulen(unsigned int n)
+{
+	int		len;
+	long	tmp;
+
+	tmp = n;
+	len = 0;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp / 10;
+	}
+	return (len);
 }

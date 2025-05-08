@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-int ft_putptr(uintptr_t ptr)
+int	ft_putptr(uintptr_t ptr)
 {
-	int count = 2;
+	int	count;
 
+	count = 2;
 	ft_putstr("0x");
 	count += ft_puthex(ptr, 'x');
-	return count;
+	return (count);
 }

@@ -11,41 +11,6 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-static int	ft_ilen(int n)
-{
-	int		len;
-	long	tmp;
-
-	tmp = n;
-	len = 0;
-	if (tmp < 0)
-	{
-		tmp = -tmp;
-		len++;
-	}
-	while (tmp)
-	{
-		len++;
-		tmp = tmp / 10;
-	}
-	return (len);
-}
-
-static int	ft_ulen(unsigned int n)
-{
-	int		len;
-	long	tmp;
-
-	tmp = n;
-	len = 0;
-	while (tmp)
-	{
-		len++;
-		tmp = tmp / 10;
-	}
-	return (len);
-}
-
 static void	write_int(int n)
 {
 	long	tmp;
@@ -71,14 +36,14 @@ static void	write_uint(unsigned int n)
 	ft_putchar((tmp % 10) + '0');
 }
 
-int ft_putint(int n)
+int	ft_putint(int n)
 {
 	write_int(n);
-	return ft_ilen(n);
+	return (ft_ilen(n));
 }
 
-int ft_putuint(unsigned int n)
+int	ft_putuint(unsigned int n)
 {
 	write_uint(n);
-	return ft_ulen(n);
+	return (ft_ulen(n));
 }

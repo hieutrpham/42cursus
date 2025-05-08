@@ -1,8 +1,10 @@
 #include "ft_printf.h"
 
-int main()
+int	main(void)
 {
-	int p = 0;
+	int	p;
+
+	p = 0;
 	ft_printf("ft: %p", &p);
 	printf("\nprintf: %p", &p);
 	// printf("%d", i);
@@ -13,5 +15,5 @@ int main()
 	// printf("printf: %d\n", printf("%X %x", 123143, 42));
 	// char hexdigits[] = "0123456789abdcef";
 	// ft_putchar(hexdigits[15 % 16]);
-	return 0;
+	return (0);
 }
