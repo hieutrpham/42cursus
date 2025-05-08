@@ -1,11 +1,11 @@
 CC:=cc
 CFLAGS := -Wall -Wextra -Werror
-SRC := utils.c \
-	   test.c \
+SRC := ft_utils.c \
 	   ft_printf.c \
 	   ft_putnbr.c \
 	   ft_puthex.c \
-	   ft_putptr.c
+	   ft_putptr.c \
+	   test.c \
 
 OBJ := $(patsubst %.c, %.o, $(SRC))
 
