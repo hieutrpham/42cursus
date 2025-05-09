@@ -12,7 +12,7 @@
 #include "ft_printf.h"
 #include <stdint.h>
 
-static int	len_hex(uintptr_t n)
+static int	len_hex(unsigned long n)
 {
 	int	count;
 
@@ -25,7 +25,7 @@ static int	len_hex(uintptr_t n)
 	return (count);
 }
 
-static void	write_hex(uintptr_t n, char c)
+static void	write_hex(unsigned long n, char c)
 {
 	char	*hex;
 
@@ -38,7 +38,7 @@ static void	write_hex(uintptr_t n, char c)
 	ft_putchar(hex[n % 16]);
 }
 
-int	ft_puthex(uintptr_t n, char c)
+int	ft_puthex(unsigned long n, char c)
 {
 	write_hex(n, c);
 	return (len_hex(n));

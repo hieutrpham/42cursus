@@ -26,7 +26,7 @@ static int	checktype(char c, va_list *args)
 	else if (c == 'x' || c == 'X')
 		return (ft_puthex(va_arg(*args, unsigned int), c));
 	else if (c == 'p')
-		return (ft_putptr(va_arg(*args, uintptr_t)));
+		return (ft_putptr(va_arg(*args, void *)));
 	return (-1);
 }
 
@@ -59,6 +59,8 @@ int	ft_printf(const char *str, ...)
 	va_list	args;
 	int		count;
 
+	if (write(1, "", 0) == -1)
+		return (-1);
 	if (!str)
 		return (-1);
 	count = 0;

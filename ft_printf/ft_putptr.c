@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-int	ft_putptr(uintptr_t ptr)
+int	ft_putptr(unsigned long ptr)
 {
 	int	count;
 
