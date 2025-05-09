@@ -15,6 +15,8 @@ int	ft_putptr(uintptr_t ptr)
 {
 	int	count;
 
+	if (!ptr)
+		return (write(1, "(nil)", 5));
 	count = 2;
 	ft_putstr("0x");
 	count += ft_puthex(ptr, 'x');

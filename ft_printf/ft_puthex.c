@@ -17,7 +17,7 @@ static int	len_hex(uintptr_t n)
 	int	count;
 
 	count = 1;
-	while (n > 16)
+	while (n >= 16)
 	{
 		n = n / 16;
 		count++;

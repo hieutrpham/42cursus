@@ -25,6 +25,8 @@ int	ft_putstr(const char *str)
 	int	count;
 
 	count = 0;
+	if (!str)
+		return (write(1, "(null)", 6));
 	while (*str)
 	{
 		count++;
@@ -40,7 +42,7 @@ int	ft_ilen(int n)
 
 	tmp = n;
 	len = 0;
-	if (tmp < 0)
+	if (tmp <= 0)
 	{
 		tmp = -tmp;
 		len++;
@@ -60,6 +62,8 @@ int	ft_ulen(unsigned int n)
 
 	tmp = n;
 	len = 0;
+	if (n == 0)
+		len++;
 	while (tmp)
 	{
 		len++;
