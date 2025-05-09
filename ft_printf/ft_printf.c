@@ -39,6 +39,8 @@ static void	t_print(const char *str, va_list *args, int *count)
 		if (*str == '%')
 		{
 			str++;
+			if (*str == 0)
+				return ;
 			type = checktype(*str, args);
 			if (type == -1)
 				return ;
