@@ -69,6 +69,10 @@ int main(void)
     /*13*/COMPARE("UINT_MAX hexadecimal: %x", UINT_MAX);
     /*14*/COMPARE("+ULONG_MAX pointer: %p", (void*) +ULONG_MAX);
     /*15*/COMPARE("-ULONG_MAX pointer: %p", (void*) -ULONG_MAX);
+    // Test some invalid inputs that could cause segfault if not handled
+    ft_printf(0);
+    ft_printf(NULL);
+    ft_printf("%q %^", 123);
     // Final summary
     if (fail == 0)
         printf(GREEN "\nAll tests passed!" RESET);
