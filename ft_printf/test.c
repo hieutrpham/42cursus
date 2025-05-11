@@ -58,20 +58,20 @@ int main(void)
     int i = 0;
     char *str = NULL;
     /*1*/COMPARE("%d %i %p", -1, 32, &i);
-    /*2*/COMPARE("%s", str);
-    /*3*/COMPARE("null: %d %i %p %c", 123, -456, NULL, 'a'+256);
-    /*4*/COMPARE("%d %i %p", -1, 32, &i);  // Testing integer and pointer
-    /*5*/COMPARE("string: %s", "Hello, World!");  // Testing string
-    /*6*/COMPARE("hex: %x %X %x", 0xff, -0xff, 0);      // Testing lowercase and uppercase hex
-    /*7*/COMPARE("zero: %d", 0);                // Testing zero
-    /*8*/COMPARE("pointer: %p", NULL);             // Testing null pointer
-    /*9*/COMPARE("unsigned int: %u", 123456789);        // Testing unsigned integer
-    /*10*/COMPARE("Test %%: %d%% of hivers are %s", 42, "weeps");        //testing %
-    /*11*/COMPARE("INT_MIN INT_MAX: %d %i", INT_MIN, INT_MAX);
-    /*12*/COMPARE("LONG_MIN LONG_MAX pointer: %p %p", (void*)LONG_MIN, (void*)LONG_MAX);
-    /*13*/COMPARE("UINT_MAX hexadecimal: %x", UINT_MAX);
-    /*14*/COMPARE("+ULONG_MAX pointer: %p", (void*) +ULONG_MAX);
-    /*15*/COMPARE("-ULONG_MAX pointer: %p", (void*) -ULONG_MAX);
+    /*3*/COMPARE("%s", str);
+    /*5*/COMPARE("null: %d %i %p %c", 123, -456, NULL, 'a'+256);
+    /*7*/COMPARE("%d %i %p", -1, 32, &i);  // Testing integer and pointer
+    /*9*/COMPARE("string: %s", "Hello, World!");  // Testing string
+    /*11*/COMPARE("hex: %x %X %x", 0xff, -0xff, 0);      // Testing lowercase and uppercase hex
+    /*13*/COMPARE("zero: %d", 0);                // Testing zero
+    /*15*/COMPARE("pointer: %p", NULL);             // Testing null pointer
+    /*17*/COMPARE("unsigned int: %u", 123456789);        // Testing unsigned integer
+    /*19*/COMPARE("Test %%: %d%% of hivers are %s", 42, "weeps");        //testing %
+    /*21*/COMPARE("INT_MIN INT_MAX: %d %i", INT_MIN, INT_MAX);
+    /*23*/COMPARE("LONG_MIN LONG_MAX pointer: %p %p", (void*)LONG_MIN, (void*)LONG_MAX);
+    /*25*/COMPARE("UINT_MAX hexadecimal: %x", UINT_MAX);
+    /*27*/COMPARE("+ULONG_MAX pointer: %p", (void*) +ULONG_MAX);
+    /*29*/COMPARE("-ULONG_MAX pointer: %p", (void*) -ULONG_MAX);
     // Test some invalid inputs that could cause segfault if not handled
     ft_printf(0);
     ft_printf(NULL);
