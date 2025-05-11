@@ -32,18 +32,21 @@
     } \
     dup2(fileno(output1), fileno(stdout)); \
     printf(YELLOW"printf: "RESET); \
-    printf(format, __VA_ARGS__); \
+    int ret1 = printf(format, __VA_ARGS__); \
     printf("\n"); \
     printf(YELLOW"ft_printf: "RESET); \
     fflush(stdout); \
     fclose(output1); \
+\
     dup2(fileno(output2), fileno(stdout)); \
-    ft_printf(format, __VA_ARGS__); \
+    int ret2 = ft_printf(format, __VA_ARGS__); \
     printf("\n"); \
     fflush(stdout); \
     fclose(output2); \
+\
     dup2(stdout_backup, fileno(stdout)); \
     close(stdout_backup); \
+    TEST(ret1 == ret2); \
     TEST(strcmp(buffer1, buffer2) == 0); \
     printf("\n"); \
 } while (0)
@@ -59,7 +62,7 @@ int main(void)
     /*3*/COMPARE("null: %d %i %p %c", 123, -456, NULL, 'a'+256);
     /*4*/COMPARE("%d %i %p", -1, 32, &i);  // Testing integer and pointer
     /*5*/COMPARE("string: %s", "Hello, World!");  // Testing string
-    /*6*/COMPARE("hex: %x %X", 0xff, -0xff);      // Testing lowercase and uppercase hex
+    /*6*/COMPARE("hex: %x %X %x", 0xff, -0xff, 0);      // Testing lowercase and uppercase hex
     /*7*/COMPARE("zero: %d", 0);                // Testing zero
     /*8*/COMPARE("pointer: %p", NULL);             // Testing null pointer
     /*9*/COMPARE("unsigned int: %u", 123456789);        // Testing unsigned integer
@@ -72,7 +75,8 @@ int main(void)
     // Test some invalid inputs that could cause segfault if not handled
     ft_printf(0);
     ft_printf(NULL);
-    ft_printf("%q %^", 123);
+    ft_printf("%q %", 123);
+    ft_printf("%");
     // Final summary
     if (fail == 0)
         printf(GREEN "\nAll tests passed!" RESET);
