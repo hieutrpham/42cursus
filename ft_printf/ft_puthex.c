@@ -38,13 +38,13 @@ static int	write_hex(unsigned long n, char c)
 	i = ft_putchar(hex[n % 16]);
 	if (i < 0)
 		return (-1);
-	return i;
+	return (i);
 }
 
 int	ft_puthex(unsigned long n, char c)
 {
 	if (write_hex(n, c) < 0)
-		return -1;
+		return (-1);
 	return (len_hex(n));
 }
 
@@ -57,10 +57,10 @@ int	ft_putptr(void *ptr)
 		return (write(1, "(nil)", 5));
 	count = 2;
 	if (ft_putstr("0x") < 0)
-		return -1;
+		return (-1);
 	i = ft_puthex((unsigned long)ptr, 'x');
 	if (i < 0)
-		return -1;
+		return (-1);
 	count += i;
 	return (count);
 }

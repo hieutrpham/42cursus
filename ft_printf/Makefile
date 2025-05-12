@@ -4,23 +4,15 @@ SRC := ft_utils.c \
 	   ft_printf.c \
 	   ft_putnbr.c \
 	   ft_puthex.c \
-	   test.c \
 
 OBJ := $(patsubst %.c, %.o, $(SRC))
 
 NAME := libftprintf.a
-TEST := test.out
 
 GREEN    := \033[32m
 RESET    := \033[0m
 
 all: $(NAME)
-
-test: $(TEST)
-	@./$(TEST)
-
-$(TEST): $(OBJ)
-	@$(CC) $(CFLAGS) -I. $^ -o $@
 
 $(NAME): $(OBJ)
 	@ar rcs $@ $^
@@ -33,7 +25,7 @@ clean:
 	@rm -rf $(OBJ)
 
 fclean: clean
-	@rm -f $(NAME) $(TEST)
+	@rm -f $(NAME)
 
 re: fclean all
 

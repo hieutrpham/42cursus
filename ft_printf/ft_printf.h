@@ -22,7 +22,7 @@ int	ft_putstr(const char *str);
 int	ft_putuint(unsigned int n);
 int	ft_putint(int n);
 int	ft_puthex(unsigned long n, char c);
-int	ft_putptr(void * ptr);
+int	ft_putptr(void *ptr);
 int	ft_ulen(unsigned int n);
 int	ft_ilen(int n);
 #endif
