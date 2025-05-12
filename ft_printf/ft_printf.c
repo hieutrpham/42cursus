@@ -30,7 +30,7 @@ static int	checktype(char c, va_list *args)
 	return (-1);
 }
 
-static void	t_print(const char *str, va_list *args, int *count)
+static int	t_print(const char *str, va_list *args, int *count)
 {
 	int	type;
 
@@ -40,26 +40,28 @@ static void	t_print(const char *str, va_list *args, int *count)
 		{
 			str++;
 			if (*str == 0)
-				return ;
+				return (-1);
 			type = checktype(*str, args);
 			if (type == -1)
-				return ;
+				return (type);
 			else
 				*count += type;
 		}
 		else
 		{
-			write(1, str, 1);
+			type = ft_putchar(*str);
 			(*count)++;
 		}
 		str++;
 	}
+	return (type);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	args;
 	int		count;
+	int		type;
 
 	if (write(1, "", 0) == -1)
 		return (-1);
@@ -67,7 +69,9 @@ int	ft_printf(const char *str, ...)
 		return (-1);
 	count = 0;
 	va_start(args, str);
-	t_print(str, &args, &count);
+	type = t_print(str, &args, &count);
+	if (type == -1)
+		return (type);
 	va_end(args);
 	return (count);
 }

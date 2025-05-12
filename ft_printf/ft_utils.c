@@ -16,8 +16,7 @@ int	ft_putchar(int c)
 	char	t;
 
 	t = (char)c;
-	write(1, &t, 1);
-	return (1);
+	return (write(1, &t, 1));
 }
 
 int	ft_putstr(const char *str)
@@ -30,7 +29,8 @@ int	ft_putstr(const char *str)
 	while (*str)
 	{
 		count++;
-		write(1, str++, 1);
+		if (write(1, str++, 1) < 0)
+			return (-1);
 	}
 	return (count);
 }
