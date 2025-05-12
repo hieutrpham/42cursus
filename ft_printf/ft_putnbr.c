@@ -16,10 +16,12 @@ static int	write_int(int n)
 	long	tmp;
 	int		i;
 
+	i = 0;
 	tmp = (long)n;
 	if (tmp < 0)
 	{
-		ft_putchar('-');
+		if (ft_putchar('-') < 0)
+			return (-1);
 		tmp = -tmp;
 	}
 	if (tmp > 9)
@@ -35,6 +37,7 @@ static int	write_uint(unsigned int n)
 	long	tmp;
 	int		i;
 
+	i = 0;
 	tmp = (long)n;
 	if (tmp > 9)
 	{
