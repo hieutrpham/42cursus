@@ -24,9 +24,10 @@ static int	len_hex(unsigned long n)
 	return (count);
 }
 
-static void	write_hex(unsigned long n, char c)
+static int	write_hex(unsigned long n, char c)
 {
 	char	*hex;
+	int		i;
 
 	if (c == 'x')
 		hex = "0123456789abcdef";
@@ -34,23 +35,32 @@ static void	write_hex(unsigned long n, char c)
 		hex = "0123456789ABCDEF";
 	if (n >= 16)
 		write_hex(n / 16, c);
-	ft_putchar(hex[n % 16]);
+	i = ft_putchar(hex[n % 16]);
+	if (i < 0)
+		return (-1);
+	return i;
 }
 
 int	ft_puthex(unsigned long n, char c)
 {
-	write_hex(n, c);
+	if (write_hex(n, c) < 0)
+		return -1;
 	return (len_hex(n));
 }
 
-int	ft_putptr(unsigned long ptr)
+int	ft_putptr(void *ptr)
 {
 	int	count;
+	int	i;
 
 	if (!ptr)
 		return (write(1, "(nil)", 5));
 	count = 2;
-	ft_putstr("0x");
-	count += ft_puthex(ptr, 'x');
+	if (ft_putstr("0x") < 0)
+		return -1;
+	i = ft_puthex((unsigned long)ptr, 'x');
+	if (i < 0)
+		return -1;
+	count += i;
 	return (count);
 }

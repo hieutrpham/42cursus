@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 #include "ft_printf.h"
 
-static void	write_int(int n)
+static int	write_int(int n)
 {
 	long	tmp;
+	int		i;
 
 	tmp = (long)n;
 	if (tmp < 0)
@@ -23,27 +24,39 @@ static void	write_int(int n)
 	}
 	if (tmp > 9)
 		write_int(tmp / 10);
-	ft_putchar((tmp % 10) + '0');
+	i = ft_putchar((tmp % 10) + '0');
+	if (i < 0)
+		return -1;
+	return i;
 }
 
-static void	write_uint(unsigned int n)
+static int	write_uint(unsigned int n)
 {
 	long	tmp;
+	int		i;
 
 	tmp = (long)n;
 	if (tmp > 9)
-		write_int(tmp / 10);
-	ft_putchar((tmp % 10) + '0');
+	{
+		i = write_int(tmp / 10);
+		if (i < 0)
+			return -1;
+	}
+	if (ft_putchar((tmp % 10) + '0') < 0)
+		return -1;
+	return i;
 }
 
 int	ft_putint(int n)
 {
-	write_int(n);
+	if (write_int(n) < 0)
+		return -1;
 	return (ft_ilen(n));
 }
 
 int	ft_putuint(unsigned int n)
 {
-	write_uint(n);
+	if (write_uint(n) < 0)
+		return -1;
 	return (ft_ulen(n));
 }
