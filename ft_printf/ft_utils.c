@@ -13,10 +13,7 @@
 
 int	ft_putchar(int c)
 {
-	char	t;
-
-	t = (char)c;
-	return (write(1, &t, 1));
+	return (write(1, &c, 1));
 }
 
 int	ft_putstr(const char *str)

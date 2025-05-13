@@ -43,18 +43,19 @@ static int	t_print(const char *str, va_list *args, int *count)
 				return (-1);
 			type = checktype(*str, args);
 			if (type == -1)
-				return (type);
+				return (-1);
 			else
 				*count += type;
 		}
 		else
 		{
-			type = ft_putchar(*str);
+			if (ft_putchar(*str) < 0)
+				return (-1);
 			(*count)++;
 		}
 		str++;
 	}
-	return (type);
+	return (1);
 }
 
 int	ft_printf(const char *str, ...)
@@ -71,7 +72,7 @@ int	ft_printf(const char *str, ...)
 	va_start(args, str);
 	type = t_print(str, &args, &count);
 	if (type == -1)
-		return (type);
+		return (va_end(args), -1);
 	va_end(args);
 	return (count);
 }
