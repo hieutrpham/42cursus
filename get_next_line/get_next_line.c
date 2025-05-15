@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 int isnewline(char *str)
 {
@@ -36,7 +34,7 @@ t_list *create_node(void *content)
 	return new_node;
 }
 
-void	add_back(t_list **lst, t_list *new)
+void	append(t_list **lst, t_list *new)
 {
 	t_list	*last;
 
@@ -53,40 +51,19 @@ void	add_back(t_list **lst, t_list *new)
 	last->next = new;
 }
 
-
 t_list *get_next_line(int fd)
 {
 	t_list *node;
 	t_list *head;
-	static char *str;
+	static char str[BUFFER_SIZE + 1];
 	ssize_t bytes;
 
-	bytes = 1;
 	head = NULL;
-	while (bytes > 0)
-	{
-		str = malloc(BUFFER_SIZE + 1);
-		bytes = read(fd, str, BUFFER_SIZE);
-		str[BUFFER_SIZE] = 0;
-		node = create_node(str);
-		add_back(&head, node);
-		free(str);
-	}
+	bytes = read(fd, str, BUFFER_SIZE);
+	if (bytes <= 0)
+		return NULL;
+	str[bytes] = 0;
+	node = create_node(ft_strdup(str));
+	append(&head, node);
 	return head;
-}
-
-int main()
-{
-	int fd = open("hello.txt", O_RDONLY);
-	char *line;
-	t_list *node;
-
-	node = get_next_line(fd);
-	while (node)
-	{
-		printf("%s\n", (char *)node->content);
-		node = node->next;
-	}
-	close(fd);
-	return 0;
 }

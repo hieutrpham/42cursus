@@ -1,6 +1,7 @@
 *Tester
 ft_printf_tester
 *.vim
+*.json
 # Prerequisites
 *.d
 

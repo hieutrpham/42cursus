@@ -10,3 +10,51 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+
+int ft_strlen(const char *s)
+{
+	int len;
+
+	len = 0;
+	if (!s)
+		return -1;
+	while (*s++)
+		len++;
+	return len;
+}
+
+char *ft_strdup(const char *s)
+{
+	char *str;
+	int i;
+
+	i = 0;
+	if (!s)
+		return NULL;
+	str = malloc(ft_strlen(s) + 1);
+	if (!str)
+		return NULL;
+	while (*s)
+		str[i++] = *s++;
+	str[i] = 0;
+	return str;
+}
+
+char *ft_strjoin(const char *s1, const char *s2)
+{
+	char *str;
+	int i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return NULL;
+	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!str)
+		return NULL;
+	while (*s1)
+		str[i++] = *s1++;
+	while (*s2)
+		str[i++] = *s2++;
+	str[i] = 0;
+	return str;
+}
