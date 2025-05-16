@@ -11,19 +11,6 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-static int has_newline(char *str)
-{
-	if (!str)
-		return 0;
-	while (*str)
-	{
-		if (*str == '\n')
-			return 1;
-		str++;
-	}
-	return 0;
-}
-
 static t_list *create_node(void *content)
 {
 	t_list *new_node;
@@ -60,14 +47,21 @@ static char *build_line(t_list **lst)
 
 	line = "";
 	tmp = *lst;
+	// printf(YELLOW"temp: "RESET);
+	// printf("%s\n", tmp->content);
+	if (has_newline(tmp->content))
+		line = ft_strjoin(tmp->content, "");
 	while (tmp)
 	{
 		line = ft_strjoin(line, tmp->content);
-		tmp = tmp->next;
 		if (has_newline(tmp->content))
 			break;
+		tmp = tmp->next;
 	}
+	// printf("%s\n", line);
 	*lst = tmp;
+	printf(GREEN"head:"RESET);
+	printf("%s--", (*lst)->content);
 	return line;
 }
 
@@ -78,15 +72,19 @@ char *get_next_line(int fd)
 	char str[BUFFER_SIZE + 1];
 	ssize_t bytes;
 
-	head = NULL;
+	if (head)
+		printf("read head: %s\n", head->content);
 	while (1)
 	{
 		bytes = read(fd, str, BUFFER_SIZE);
 		if (bytes <= 0)
 			return NULL;
 		str[bytes] = 0;
+		// printf("%s\n", str);
+		// printf("%d\n", ft_strlen(str));
 		node = create_node(ft_strdup(str));
 		append(&head, node);
+		//printf("%s\n", node->content);
 		if (has_newline(node->content))
 			break;
 	}

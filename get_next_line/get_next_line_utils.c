@@ -40,6 +40,19 @@ char *ft_strdup(const char *s)
 	return str;
 }
 
+int has_newline(char *str)
+{
+	if (!str)
+		return 0;
+	while (*str)
+	{
+		if (*str == '\n')
+			return 1;
+		str++;
+	}
+	return 0;
+}
+
 char *ft_strjoin(const char *s1, const char *s2)
 {
 	char *str;
@@ -51,6 +64,12 @@ char *ft_strjoin(const char *s1, const char *s2)
 	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
 		return NULL;
+	if (has_newline((char*)s1))
+	{
+		while (*s1 && *s1 != '\n')
+			s1++;
+		s1++;
+	}
 	while (*s1 && *s1 != '\n')
 		str[i++] = *s1++;
 	while (*s2 && *s2 != '\n')

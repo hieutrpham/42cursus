@@ -19,6 +19,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 
+#define GREEN   "\033[32m"
+#define RED     "\033[31m"
+#define YELLOW  "\033[33m"
+#define RESET   "\033[0m"
+
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 10
 #endif
@@ -27,6 +32,7 @@ typedef struct s_list {
 	struct s_list *next;
 } t_list;
 
+int has_newline(char *str);
 int ft_strlen(const char *s);
 char *ft_strdup(const char *s);
 char *ft_strjoin(const char *s1, const char *s2);
