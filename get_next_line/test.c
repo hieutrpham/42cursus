@@ -1,20 +1,14 @@
 #include "get_next_line.h"
+
 int main() {
     int fd = open("hello.txt", O_RDONLY);
-    t_list *head = NULL;
-    t_list *node;
+	char *line;
 
-    while ((node = get_next_line(fd))) {
-        append(&head, node);  // Add to linked list
-    }
-
-    // Print all nodes AFTER reading
-    t_list *tmp = head;
-    while (tmp) {
-        printf("< %s >\n", (char *)tmp->content);
-        tmp = tmp->next;
-    }
-
+	for (int i = 0; i < 13; i++)
+	{
+		line = get_next_line(fd);
+		printf("[%d]: %s\n", i, line);
+	}
     close(fd);
     return 0;
 }

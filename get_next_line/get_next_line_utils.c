@@ -51,9 +51,9 @@ char *ft_strjoin(const char *s1, const char *s2)
 	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
 		return NULL;
-	while (*s1)
+	while (*s1 && *s1 != '\n')
 		str[i++] = *s1++;
-	while (*s2)
+	while (*s2 && *s2 != '\n')
 		str[i++] = *s2++;
 	str[i] = 0;
 	return str;

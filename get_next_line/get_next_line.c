@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-int isnewline(char *str)
+static int has_newline(char *str)
 {
+	if (!str)
+		return 0;
 	while (*str)
 	{
 		if (*str == '\n')
@@ -22,7 +24,7 @@ int isnewline(char *str)
 	return 0;
 }
 
-t_list *create_node(void *content)
+static t_list *create_node(void *content)
 {
 	t_list *new_node;
 
@@ -34,7 +36,7 @@ t_list *create_node(void *content)
 	return new_node;
 }
 
-void	append(t_list **lst, t_list *new)
+static void	append(t_list **lst, t_list *new)
 {
 	t_list	*last;
 
@@ -51,19 +53,42 @@ void	append(t_list **lst, t_list *new)
 	last->next = new;
 }
 
-t_list *get_next_line(int fd)
+static char *build_line(t_list **lst)
+{
+	char *line;
+	t_list *tmp;
+
+	line = "";
+	tmp = *lst;
+	while (tmp)
+	{
+		line = ft_strjoin(line, tmp->content);
+		tmp = tmp->next;
+		if (has_newline(tmp->content))
+			break;
+	}
+	*lst = tmp;
+	return line;
+}
+
+char *get_next_line(int fd)
 {
 	t_list *node;
-	t_list *head;
-	static char str[BUFFER_SIZE + 1];
+	static t_list *head;
+	char str[BUFFER_SIZE + 1];
 	ssize_t bytes;
 
 	head = NULL;
-	bytes = read(fd, str, BUFFER_SIZE);
-	if (bytes <= 0)
-		return NULL;
-	str[bytes] = 0;
-	node = create_node(ft_strdup(str));
-	append(&head, node);
-	return head;
+	while (1)
+	{
+		bytes = read(fd, str, BUFFER_SIZE);
+		if (bytes <= 0)
+			return NULL;
+		str[bytes] = 0;
+		node = create_node(ft_strdup(str));
+		append(&head, node);
+		if (has_newline(node->content))
+			break;
+	}
+	return build_line(&head);
 }
