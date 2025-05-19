@@ -66,8 +66,35 @@ char *ft_strjoin(const char *s1, const char *s2)
 		return NULL;
 	while (*s1 && *s1 != '\n')
 		str[i++] = *s1++;
-	while (*s2 && *s2 != '\n')
-		str[i++] = *s2++;
+	if (has_newline((char*)s2))
+	{
+		// fprintf(stderr, "DEBUGPRINT[13]: get_next_line_utils.c:71 newline: %s\n", s2);
+		while (*s2 && *s2 != '\n')
+			str[i++] = *s2++;
+		str[i++] = '\n';
+	}
+	else
+	{
+		// fprintf(stderr, "DEBUGPRINT[12]: get_next_line_utils.c:77: s2=%s\n", s2);
+		while (*s2 && *s2 != '\n')
+			str[i++] = *s2++;
+	}
 	str[i] = 0;
 	return str;
+}
+
+void ft_free(t_list **lst)
+{
+	 t_list *tmp;
+
+	if (!*lst || !lst)
+		return;
+	while (*lst)
+	{
+		tmp = (*lst)->next;
+		free((*lst)->content);
+		free((*lst));
+		*lst = tmp;
+	}
+	*lst = NULL;
 }

@@ -32,6 +32,7 @@ typedef struct s_list {
 	struct s_list *next;
 } t_list;
 
+void ft_free(t_list **lst);
 int has_newline(char *str);
 int ft_strlen(const char *s);
 char *ft_strdup(const char *s);

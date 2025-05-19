@@ -15,6 +15,8 @@ static t_list *create_node(void *content)
 {
 	t_list *new_node;
 
+	if (!content)
+		return NULL;
 	new_node = malloc(sizeof(t_list));
 	if (!new_node)
 		return NULL;
@@ -53,11 +55,16 @@ static char *build_line(t_list **lst)
 			(tmp->content)++;
 		(tmp->content)++;
 		line = ft_strdup(tmp->content);
+		if (!line)
+			return (ft_free(lst), NULL);
 		tmp = tmp->next;
 	}
 	while (tmp)
 	{
+		// fprintf(stderr, "DEBUGPRINT[14]: get_next_line.c:62 test: %s\n", tmp->content);
 		line = ft_strjoin(line, tmp->content);
+		if (!line)
+			return (ft_free(lst), NULL);
 		if (has_newline(tmp->content))
 			break;
 		tmp = tmp->next;
@@ -79,7 +86,10 @@ char *get_next_line(int fd)
 		if (bytes <= 0)
 			return NULL;
 		str[bytes] = 0;
+		fprintf(stderr, "DEBUGPRINT[15]: get_next_line.c:88: str=%s\n", str);
 		node = create_node(ft_strdup(str));
+		if (!node)
+			return (ft_free(&head), NULL);
 		append(&head, node);
 		if (has_newline(node->content) || bytes < BUFFER_SIZE)
 			break;
