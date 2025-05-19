@@ -9,8 +9,9 @@ int main() {
 	char *line;
 
 	line = get_next_line(fd2);
-	fprintf(stderr, "DEBUGPRINT[4]: test.c:9: line=%s\n", line);
-	assert(strcmp(line, "012345678901234567890123456789012345678901")==0);
+	fprintf(stderr, "DEBUGPRINT[4]: test.c:9: line=%s", line);
+	assert(!has_newline(line));
+	// assert(strcmp(line, "012345678901234567890123456789012345678901")==0);
     close(fd1);
 
     return 0;

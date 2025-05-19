@@ -61,7 +61,6 @@ static char *build_line(t_list **lst)
 	}
 	while (tmp)
 	{
-		// fprintf(stderr, "DEBUGPRINT[14]: get_next_line.c:62 test: %s\n", tmp->content);
 		line = ft_strjoin(line, tmp->content);
 		if (!line)
 			return (ft_free(lst), NULL);
@@ -86,7 +85,6 @@ char *get_next_line(int fd)
 		if (bytes <= 0)
 			return NULL;
 		str[bytes] = 0;
-		fprintf(stderr, "DEBUGPRINT[15]: get_next_line.c:88: str=%s\n", str);
 		node = create_node(ft_strdup(str));
 		if (!node)
 			return (ft_free(&head), NULL);
