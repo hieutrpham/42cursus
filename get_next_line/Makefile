@@ -1,4 +1,4 @@
-SIZE:=10
+SIZE:=5
 
 all:
 	@cc *.c *.h -D BUFFER_SIZE=$(SIZE) && ./a.out

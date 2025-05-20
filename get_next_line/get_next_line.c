@@ -59,26 +59,28 @@ static char *build_line(t_list **lst)
 {
 	char *line;
 	t_list *tmp;
+	char *nl;
 
-	line = "";
 	tmp = *lst;
+	line = "";
 	if (gimme_nl(tmp->content))
 	{
-		while (*(tmp->content) != '\n')
-			(tmp->content)++;
-		(tmp->content)++;
-		line = ft_strdup(tmp->content);
+		nl = gimme_nl(tmp->content);
+		line = ft_strdup(++nl);
 		if (!line)
 			return (ft_free(lst), NULL);
 		tmp = tmp->next;
 	}
 	while (tmp)
 	{
-		line = ft_strjoin(line, tmp->content);
-		if (!line)
-			return (ft_free(lst), NULL);
-		if (gimme_nl(tmp->content))
+		nl = gimme_nl(tmp->content);
+		if (nl)
+		{
+			line = ft_strjoin(line, ft_substr(tmp->content, 0, nl - tmp->content + 1));
 			break;
+		}
+		else
+			line = ft_strjoin(line, tmp->content);
 		tmp = tmp->next;
 	}
 	*lst = tmp;
