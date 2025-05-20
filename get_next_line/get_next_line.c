@@ -25,6 +25,19 @@ static t_list *create_node(void *content)
 	return new_node;
 }
 
+static char *gimme_nl(char *str)
+{
+	if (!str)
+		return 0;
+	while (*str)
+	{
+		if (*str == '\n')
+			return &(*str);
+		str++;
+	}
+	return NULL;
+}
+
 static void	append(t_list **lst, t_list *new)
 {
 	t_list	*last;
@@ -49,7 +62,7 @@ static char *build_line(t_list **lst)
 
 	line = "";
 	tmp = *lst;
-	if (has_newline(tmp->content))
+	if (gimme_nl(tmp->content))
 	{
 		while (*(tmp->content) != '\n')
 			(tmp->content)++;
@@ -64,7 +77,7 @@ static char *build_line(t_list **lst)
 		line = ft_strjoin(line, tmp->content);
 		if (!line)
 			return (ft_free(lst), NULL);
-		if (has_newline(tmp->content))
+		if (gimme_nl(tmp->content))
 			break;
 		tmp = tmp->next;
 	}
@@ -89,7 +102,7 @@ char *get_next_line(int fd)
 		if (!node)
 			return (ft_free(&head), NULL);
 		append(&head, node);
-		if (has_newline(node->content) || bytes < BUFFER_SIZE)
+		if (gimme_nl(node->content) || bytes < BUFFER_SIZE)
 			break;
 	}
 	return build_line(&head);

@@ -40,19 +40,6 @@ char *ft_strdup(const char *s)
 	return str;
 }
 
-int has_newline(char *str)
-{
-	if (!str)
-		return 0;
-	while (*str)
-	{
-		if (*str == '\n')
-			return 1;
-		str++;
-	}
-	return 0;
-}
-
 char *ft_strjoin(const char *s1, const char *s2)
 {
 	char *str;
@@ -87,3 +74,33 @@ void ft_free(t_list **lst)
 	}
 	*lst = NULL;
 }
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	s_len;
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	s_len = ft_strlen(s);
+	if (start >= s_len)
+		return (ft_strdup(""));
+	if (len > s_len)
+		len = s_len;
+	if (s_len - start < len)
+		len = s_len - start;
+	str = malloc(len + 1);
+	if (!str)
+		return (NULL);
+	while (i < len)
+	{
+		str[i] = s[start];
+		i++;
+		start++;
+	}
+	str[i] = 0;
+	return (str);
+}
+
