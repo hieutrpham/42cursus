@@ -8,11 +8,11 @@ int main() {
     int fd2 = open("no_nl.txt", O_RDONLY);
 	char *line;
 
-	for (int i = 0; i < 13; i++)
-	{
-		line = get_next_line(fd2);
+	while((line = get_next_line(fd)))
 		fprintf(stderr, "DEBUGPRINT[4]: test.c:9: line=%s", line);
-	}
+	
+	// line = get_next_line(fd);
+	// fprintf(stderr, "DEBUGPRINT[19]: test.c:14: line=%s\n", line);
 
     return 0;
 }

@@ -11,6 +11,18 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+int has_nl(const char *str)
+{
+	if (!str)
+		return 0;
+	while (*str)
+	{
+		if (*str == '\n')
+			return 1;
+		str++;
+	}
+	return 0;
+}
 int ft_strlen(const char *s)
 {
 	int len;
@@ -57,22 +69,6 @@ char *ft_strjoin(const char *s1, const char *s2)
 		str[i++] = *s2++;
 	str[i] = 0;
 	return str;
-}
-
-void ft_free(t_list **lst)
-{
-	 t_list *tmp;
-
-	if (!*lst || !lst)
-		return;
-	while (*lst)
-	{
-		tmp = (*lst)->next;
-		free((*lst)->content);
-		free((*lst));
-		*lst = tmp;
-	}
-	*lst = NULL;
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)

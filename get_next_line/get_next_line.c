@@ -11,101 +11,50 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-static t_list *create_node(void *content)
+char *get_next_line(int fd)
 {
-	t_list *new_node;
-
-	if (!content)
-		return NULL;
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
-		return NULL;
-	new_node->content = content;
-	new_node->next = NULL;
-	return new_node;
-}
-
-static char *gimme_nl(char *str)
-{
-	if (!str)
-		return 0;
-	while (*str)
-	{
-		if (*str == '\n')
-			return &(*str);
-		str++;
-	}
-	return NULL;
-}
-
-static void	append(t_list **lst, t_list *new)
-{
-	t_list	*last;
-
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	last = *lst;
-	while (last->next)
-		last = last->next;
-	last->next = new;
-}
-
-static char *build_line(t_list **lst)
-{
+	static char *leftover;
+	char *buff;
 	char *line;
-	t_list *tmp;
-	char *nl;
+	char *newline;
+	ssize_t bytes;
+	int i;
 
-	tmp = *lst;
-	line = "";
-	if (gimme_nl(tmp->content))
+	buff = malloc(BUFFER_SIZE + 1);
+	if (!buff)
+		return NULL;
+	// INFO: build line from buffer
+	while (1)
 	{
-		nl = gimme_nl(tmp->content);
-		line = ft_strdup(++nl);
-		if (!line)
-			return (ft_free(lst), NULL);
-		tmp = tmp->next;
+		bytes = read(fd, buff, BUFFER_SIZE);
+		if (bytes <= 0)
+			return (free(buff), NULL);
+		if (has_nl(buff) || bytes < BUFFER_SIZE)
+			break;
+		buff[bytes] = 0;
+		if (!leftover)
+			leftover = ft_strdup("");
+		leftover = ft_strjoin(leftover, buff);
 	}
-	while (tmp)
+	i = 0;
+	line = ft_strjoin(leftover, buff);
+	// INFO: get new line
+	newline = malloc(ft_strlen(line) + 1);
+	while (*line)
 	{
-		nl = gimme_nl(tmp->content);
-		if (nl)
+		if (*line == '\n')
 		{
-			line = ft_strjoin(line, ft_substr(tmp->content, 0, nl - tmp->content + 1));
+			newline[i++] = '\n';
 			break;
 		}
 		else
-			line = ft_strjoin(line, tmp->content);
-		tmp = tmp->next;
+			newline[i++] = *line++;
 	}
-	*lst = tmp;
-	return line;
-}
-
-char *get_next_line(int fd)
-{
-	t_list *node;
-	static t_list *head;
-	char str[BUFFER_SIZE + 1];
-	ssize_t bytes;
-
-	while (1)
-	{
-		bytes = read(fd, str, BUFFER_SIZE);
-		if (bytes <= 0)
-			return NULL;
-		str[bytes] = 0;
-		node = create_node(ft_strdup(str));
-		if (!node)
-			return (ft_free(&head), NULL);
-		append(&head, node);
-		if (gimme_nl(node->content) || bytes < BUFFER_SIZE)
-			break;
-	}
-	return build_line(&head);
+	newline[i] = 0;
+	// INFO: clean up. leftover is the strings after \n
+	char *temp = buff;
+	while (*buff && *buff != '\n')
+		buff++;
+	leftover = ft_substr(buff, 1, ft_strlen(temp) - ft_strlen(buff));
+	return (newline);
 }

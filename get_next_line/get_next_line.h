@@ -32,7 +32,7 @@ typedef struct s_list {
 	struct s_list *next;
 } t_list;
 
-void ft_free(t_list **lst);
+int has_nl(const char *str);
 int ft_strlen(const char *s);
 char *ft_strdup(const char *s);
 char *ft_strjoin(const char *s1, const char *s2);
