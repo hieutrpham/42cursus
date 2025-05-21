@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+#include <stdio.h>
 
 char *get_next_line(int fd)
 {
@@ -37,25 +38,27 @@ char *get_next_line(int fd)
 	}
 	if (bytes < 0)
 		return (free(buff), NULL);
-	i = 0;
-	line = ft_strjoin(leftover, buff);
 	// INFO: get new line
-	newline = malloc(ft_strlen(line) + 1);
-	while (*line)
+	if (ft_strlen(leftover) == 0)
+		return (free(buff), NULL);
+	newline = malloc(ft_strlen(leftover) + 1);
+	if (!newline)
+		return (free(buff), NULL);
+	i = 0;
+	while (*leftover)
 	{
-		if (*line == '\n')
+		if (*leftover == '\n')
 		{
 			newline[i++] = '\n';
 			break;
 		}
 		else
-			newline[i++] = *line++;
+			newline[i++] = *leftover++;
 	}
 	newline[i] = 0;
 	// INFO: clean up. leftover is the strings after \n
-	char *temp = buff;
-	while (*buff && *buff != '\n')
-		buff++;
-	leftover = ft_substr(buff, 1, ft_strlen(temp) - ft_strlen(buff));
+	while (*leftover == '\n')
+		leftover++;
+	free(buff);
 	return (newline);
 }
