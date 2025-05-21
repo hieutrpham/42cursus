@@ -23,19 +23,20 @@ char *get_next_line(int fd)
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
 		return NULL;
+	bytes = 1;
 	// INFO: build line from buffer
-	while (1)
+	while (bytes > 0 && !has_nl(leftover))
 	{
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes <= 0)
-			return (free(buff), NULL);
-		if (has_nl(buff) || bytes < BUFFER_SIZE)
 			break;
 		buff[bytes] = 0;
 		if (!leftover)
 			leftover = ft_strdup("");
 		leftover = ft_strjoin(leftover, buff);
 	}
+	if (bytes < 0)
+		return (free(buff), NULL);
 	i = 0;
 	line = ft_strjoin(leftover, buff);
 	// INFO: get new line
