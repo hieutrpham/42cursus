@@ -14,11 +14,11 @@
 
 char *get_next_line(int fd)
 {
-	static char *leftover;
+	static char *line;
 	char *buff;
-	char *line;
 	char *newline;
 	ssize_t bytes;
+	char *tmp;
 	int i;
 
 	buff = malloc(BUFFER_SIZE + 1);
@@ -26,39 +26,39 @@ char *get_next_line(int fd)
 		return NULL;
 	bytes = 1;
 	// INFO: build line from buffer
-	while (bytes > 0 && !has_nl(leftover))
+	while (bytes > 0 && !has_nl(line))
 	{
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes <= 0)
 			break;
 		buff[bytes] = 0;
-		if (!leftover)
-			leftover = ft_strdup("");
-		leftover = ft_strjoin(leftover, buff);
+		if (!line)
+			line = ft_strdup("");
+		line = ft_strjoin(line, buff);
 	}
 	if (bytes < 0)
 		return (free(buff), NULL);
 	// INFO: get new line
-	if (ft_strlen(leftover) == 0)
+	if (ft_strlen(line) == 0)
 		return (free(buff), NULL);
-	newline = malloc(ft_strlen(leftover) + 1);
+	newline = malloc(ft_strlen(line) + 1);
 	if (!newline)
 		return (free(buff), NULL);
 	i = 0;
-	while (*leftover)
+	while (*line)
 	{
-		if (*leftover == '\n')
+		if (*line == '\n')
 		{
 			newline[i++] = '\n';
 			break;
 		}
 		else
-			newline[i++] = *leftover++;
+			newline[i++] = *line++;
 	}
 	newline[i] = 0;
-	// INFO: clean up. leftover is the strings after \n
-	while (*leftover == '\n')
-		leftover++;
+	// INFO: clean up. line is the strings after \n
+	while (*line == '\n')
+		line++;
 	free(buff);
 	return (newline);
 }
