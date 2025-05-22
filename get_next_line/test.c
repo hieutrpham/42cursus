@@ -4,11 +4,12 @@
 
 int main() {
     int fd = open("hello.txt", O_RDONLY);
-    int fd1 = open("nl.txt", O_RDONLY);
-    int fd2 = open("no_nl.txt", O_RDONLY);
+    int fd1 = open("gnlTester/files/empty", O_RDONLY);
+    int fd2 = open("gnlTester/files/41_no_nl", O_RDONLY);
+    int fd3 = open("gnlTester/files/42_with_nl", O_RDONLY);
 	char *line;
 
-	while((line = get_next_line(fd)))
+	while((line = get_next_line(fd3)))
 	{
 		fprintf(stderr, "DEBUGPRINT[4]: test.c:9: line=%s", line);
 		free(line);
