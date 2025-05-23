@@ -13,7 +13,7 @@
 
 int has_nl(const char *str)
 {
-	if (!str || ft_strlen(str) == 0)
+	if (!str)
 		return 0;
 	while (*str)
 	{

@@ -17,6 +17,8 @@ static char *build_line(int fd, char *line)
 	ssize_t bytes;
 	char *buff;
 
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (NULL);
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
 		return (free(line), NULL);
@@ -25,11 +27,7 @@ static char *build_line(int fd, char *line)
 	{
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes == -1)
-		{
-			if (line)
-				free(line);
-			return (free(buff), NULL);
-		}
+			return (free(buff), free(line), line = NULL, NULL);
 		buff[bytes] = 0;
 		line = ft_strjoin(line, buff);
 		if (!line)
@@ -39,55 +37,58 @@ static char *build_line(int fd, char *line)
 	return line;
 }
 
+static int get_line_length(const char *str)
+{
+	int line_length = 0;
+	int i = 0;
+	while (str[i])
+	{
+		line_length++;
+		if (str[i] == '\n')
+			break;
+		i++;
+	}
+	return line_length;
+}
+static char *get_line(char *line, int *pos)
+{
+	char *newline; 
+
+	newline = malloc(get_line_length(line) + 1);
+	if (!newline)
+		return (free(line), line = NULL, NULL);
+	while (line[*pos])
+	{
+		if (line[*pos] == '\n')
+		{
+			newline[(*pos)++] = '\n';
+			break;
+		}
+		else
+			newline[*pos] = line[*pos];
+		(*pos)++;
+	}
+	newline[*pos] = 0;
+	return newline;
+}
+
 char *get_next_line(int fd)
 {
 	static char *line;
 	char *newline;
+	int pos;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (NULL);
 	line = build_line(fd, line);
 	if (!line || ft_strlen(line) == 0)
-	{
-		return (free(line), NULL);
-	}
-
-	// INFO: get new line.
-	int line_length = 0;
-	int i = 0;
-	while (line[i])
-	{
-		if (line[i] == '\n')
-		{
-			line_length++;
-			break;
-		}
-		else
-			line_length++;
-		i++;
-	}
-	newline = malloc(line_length + 1);
+		return (free(line), line = NULL, NULL);
+	pos = 0;
+	newline = get_line(line, &pos);
 	if (!newline)
 		return (free(line), line = NULL, NULL);
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '\n')
-		{
-			newline[i++] = '\n';
-			break;
-		}
-		else
-			newline[i] = line[i];
-		i++;
-	}
-	newline[i] = 0;
-
-	// INFO: clean up. line is the strings after \n. i = position after \n
 	char *leftover;
-	int k = i;
-	line_length = 0;
-	while (line[i++])
+	int k = pos;
+	int line_length = 0;
+	while (line[pos++])
 		line_length++;
 	leftover = malloc(line_length + 1);
 	if (!leftover)
