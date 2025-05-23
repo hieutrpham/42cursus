@@ -13,7 +13,7 @@
 
 int has_nl(const char *str)
 {
-	if (!str)
+	if (!str || ft_strlen(str) == 0)
 		return 0;
 	while (*str)
 	{
@@ -23,7 +23,7 @@ int has_nl(const char *str)
 	}
 	return 0;
 }
-// FIX: count up to \n only. create a new function
+
 int ft_strlen(const char *s)
 {
 	int len;
@@ -34,23 +34,6 @@ int ft_strlen(const char *s)
 	while (*s++)
 		len++;
 	return len;
-}
-
-char *ft_strdup(const char *s)
-{
-	char *str;
-	int i;
-
-	i = 0;
-	if (!s)
-		return NULL;
-	str = malloc(ft_strlen(s) + 1);
-	if (!str)
-		return NULL;
-	while (*s)
-		str[i++] = *s++;
-	str[i] = 0;
-	return str;
 }
 
 char *ft_strjoin(char *s1, char *s2)
@@ -81,33 +64,3 @@ char *ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return str;
 }
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	s_len;
-	char	*str;
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	if (start >= s_len)
-		return (ft_strdup(""));
-	if (len > s_len)
-		len = s_len;
-	if (s_len - start < len)
-		len = s_len - start;
-	str = malloc(len + 1);
-	if (!str)
-		return (NULL);
-	while (i < len)
-	{
-		str[i] = s[start];
-		i++;
-		start++;
-	}
-	str[i] = 0;
-	return (str);
-}
-

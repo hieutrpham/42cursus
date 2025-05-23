@@ -12,49 +12,45 @@
 #include "get_next_line.h"
 #include <stdio.h>
 
-char *get_next_line(int fd)
-{
-	static char *line;
-	char *buff;
-	char *newline;
+static char *build_line(int fd, char *line)
+{	
 	ssize_t bytes;
+	char *buff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (free(line), NULL);
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
 		return (free(line), NULL);
-
-	// INFO: build line from buffer
 	bytes = 1;
 	while (bytes > 0 && !has_nl(line))
 	{
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes == -1)
 		{
-			free(buff);
 			if (line)
-			{
 				free(line);
-				line = NULL;
-			}
-			return NULL;
+			return (free(buff), NULL);
 		}
 		buff[bytes] = 0;
 		line = ft_strjoin(line, buff);
 		if (!line)
-			return (free(buff), free(line), line = NULL, NULL);
-	}
-	if (!line || ft_strlen(line) == 0)
-	{
-		if (line)
-		{
-			free(line);
-			line = NULL;
-		}
-		return (free(buff), NULL);
+			return (free(buff), free(line), NULL);
 	}
 	free(buff);
+	return line;
+}
+
+char *get_next_line(int fd)
+{
+	static char *line;
+	char *newline;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (NULL);
+	line = build_line(fd, line);
+	if (!line || ft_strlen(line) == 0)
+	{
+		return (free(line), NULL);
+	}
 
 	// INFO: get new line.
 	int line_length = 0;

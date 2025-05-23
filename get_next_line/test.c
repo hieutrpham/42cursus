@@ -9,7 +9,7 @@ int main() {
     int fd3 = open("gnlTester/files/42_with_nl", O_RDONLY);
 	char *line;
 
-	while((line = get_next_line(fd3)))
+	while((line = get_next_line(fd1)))
 	{
 		fprintf(stderr, "DEBUGPRINT[4]: test.c:9: line=%s", line);
 		free(line);
