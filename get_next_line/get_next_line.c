@@ -30,7 +30,7 @@ static char *build_line(int fd, char *line)
 		buff[bytes] = 0;
 		line = ft_strjoin(line, buff);
 		if (!line)
-			return (free(buff), free(line), NULL);
+			return (free(buff), free(line), line = NULL, NULL);
 	}
 	free(buff);
 	return line;
