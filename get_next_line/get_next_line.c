@@ -50,6 +50,7 @@ static int get_line_length(const char *str)
 	}
 	return line_length;
 }
+
 static char *get_line(char *line, int *pos)
 {
 	char *newline; 
@@ -72,11 +73,30 @@ static char *get_line(char *line, int *pos)
 	return newline;
 }
 
+static char *clean_line(char *line, int pos)
+{
+	char *leftover;
+	int k;
+	int j;
+
+	k = pos;
+	while (line[pos++]);
+	leftover = malloc(pos - k + 1);
+	if (!leftover)
+		return (NULL);
+	j = 0;
+	while (line[k])
+		leftover[j++] = line[k++];
+	leftover[j] = 0;
+	return leftover;
+}
+
 char *get_next_line(int fd)
 {
 	static char *line;
 	char *newline;
 	int pos;
+	char *leftover;
 
 	line = build_line(fd, line);
 	if (!line || ft_strlen(line) == 0)
@@ -85,18 +105,9 @@ char *get_next_line(int fd)
 	newline = get_line(line, &pos);
 	if (!newline)
 		return (free(line), line = NULL, NULL);
-	char *leftover;
-	int k = pos;
-	int line_length = 0;
-	while (line[pos++])
-		line_length++;
-	leftover = malloc(line_length + 1);
+	leftover = clean_line(line, pos);
 	if (!leftover)
-		return (free(line), free(newline), NULL);
-	int j = 0;
-	while (line[k])
-		leftover[j++] = line[k++];
-	leftover[j] = 0;
+		return (free(line), free(newline), line = NULL, NULL);
 	free(line);
 	line = leftover;
 	return (newline);
