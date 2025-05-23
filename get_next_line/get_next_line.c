@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdio.h>
 
 static char *build_line(int fd, char *line)
 {	
