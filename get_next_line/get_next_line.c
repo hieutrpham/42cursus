@@ -38,14 +38,15 @@ static char *build_line(int fd, char *line)
 
 static int get_line_length(const char *str)
 {
-	int line_length = 0;
-	int i = 0;
-	while (str[i])
+	int line_length;
+
+	line_length = 0;
+	while (*str)
 	{
 		line_length++;
-		if (str[i] == '\n')
+		if (*str == '\n')
 			break;
-		i++;
+		str++;
 	}
 	return line_length;
 }
