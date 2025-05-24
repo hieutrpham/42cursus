@@ -1,6 +1,7 @@
 #include "get_next_line.h"
 #include <assert.h>
-#include <string.h>
+#include <stdio.h>
+#include <fcntl.h>
 
 int main() {
     int fd = open("hello.txt", O_RDONLY);
@@ -9,7 +10,7 @@ int main() {
     int fd3 = open("gnlTester/files/42_with_nl", O_RDONLY);
 	char *line;
 
-	while((line = get_next_line(fd1)))
+	while((line = get_next_line(fd)))
 	{
 		fprintf(stderr, "DEBUGPRINT[4]: test.c:9: line=%s", line);
 		free(line);

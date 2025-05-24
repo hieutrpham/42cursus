@@ -11,6 +11,33 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
+static int get_line_length(const char *line);
+static char *build_line(int fd, char *line);
+static char *get_line(char *line, int *pos);
+static char *clean_line(char *line, int pos);
+
+char *get_next_line(int fd)
+{
+	static char *line;
+	char *newline;
+	char *leftover;
+	int pos;
+
+	line = build_line(fd, line);
+	if (!line || ft_strlen(line) == 0)
+		return (free(line), line = NULL, NULL);
+	pos = 0;
+	newline = get_line(line, &pos);
+	if (!newline)
+		return (free(line), line = NULL, NULL);
+	leftover = clean_line(line, pos);
+	if (!leftover)
+		return (free(line), free(newline), line = NULL, NULL);
+	free(line);
+	line = leftover;
+	return (newline);
+}
+
 static char *build_line(int fd, char *line)
 {	
 	ssize_t bytes;
@@ -36,19 +63,19 @@ static char *build_line(int fd, char *line)
 	return line;
 }
 
-static int get_line_length(const char *str)
+static int get_line_length(const char *line)
 {
-	int line_length;
+	int length;
 
-	line_length = 0;
-	while (*str)
+	length = 0;
+	while (*line)
 	{
-		line_length++;
-		if (*str == '\n')
+		length++;
+		if (*line == '\n')
 			break;
-		str++;
+		line++;
 	}
-	return line_length;
+	return length;
 }
 
 static char *get_line(char *line, int *pos)
@@ -89,26 +116,4 @@ static char *clean_line(char *line, int pos)
 		leftover[j++] = line[k++];
 	leftover[j] = 0;
 	return leftover;
-}
-
-char *get_next_line(int fd)
-{
-	static char *line;
-	char *newline;
-	int pos;
-	char *leftover;
-
-	line = build_line(fd, line);
-	if (!line || ft_strlen(line) == 0)
-		return (free(line), line = NULL, NULL);
-	pos = 0;
-	newline = get_line(line, &pos);
-	if (!newline)
-		return (free(line), line = NULL, NULL);
-	leftover = clean_line(line, pos);
-	if (!leftover)
-		return (free(line), free(newline), line = NULL, NULL);
-	free(line);
-	line = leftover;
-	return (newline);
 }
