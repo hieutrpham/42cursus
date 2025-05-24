@@ -10,100 +10,89 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+#include <stdio.h>
 
-static t_list *create_node(void *content)
+static int has_nl(t_list *node)
 {
-	t_list *new_node;
+	char *tmp;
+
+	if (!node)
+		return 0;
+	while (node)
+	{
+		tmp = node->content;
+		while (*tmp)
+		{
+			if (*tmp == '\n')
+				return 1;
+			tmp++;
+		}
+		node = node->next;
+	}
+	return 0;
+}
+
+static t_list *create_node(char *content)
+{
+	t_list *node;
 
 	if (!content)
 		return NULL;
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
+	node = malloc(sizeof(t_list));
+	if (!node)
 		return NULL;
-	new_node->content = content;
-	new_node->next = NULL;
-	return new_node;
+	node->content = content;
+	node->next = NULL;
+	return node;
 }
 
-static char *gimme_nl(char *str)
+static void append(t_list **node, t_list *new)
 {
-	if (!str)
-		return 0;
-	while (*str)
-	{
-		if (*str == '\n')
-			return &(*str);
-		str++;
-	}
-	return NULL;
-}
-
-static void	append(t_list **lst, t_list *new)
-{
-	t_list	*last;
-
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	last = *lst;
-	while (last->next)
-		last = last->next;
-	last->next = new;
-}
-
-static char *build_line(t_list **lst)
-{
-	char *line;
 	t_list *tmp;
 
-	line = "";
-	tmp = *lst;
-	if (gimme_nl(tmp->content))
+	if (!new)
+		return;
+	if (!*node)
 	{
-		while (*(tmp->content) != '\n')
-			(tmp->content)++;
-		(tmp->content)++;
-		line = ft_strdup(tmp->content);
-		if (!line)
-			return (ft_free(lst), NULL);
-		tmp = tmp->next;
+		*node = new;
+		return;
 	}
-	while (tmp)
+	tmp = *node;
+	while ((tmp)->next)
+		tmp = (tmp)->next;
+	(tmp)->next = new;
+}
+static void build_list(int fd, t_list **node)
+{
+	char *buff;
+	ssize_t bytes;
+	t_list *new_node;
+
+	bytes = 1;
+	while (bytes > 0 && !has_nl(*node))
 	{
-		line = ft_strjoin(line, tmp->content);
-		if (!line)
-			return (ft_free(lst), NULL);
-		if (gimme_nl(tmp->content))
-			break;
-		tmp = tmp->next;
+		buff = malloc(BUFFER_SIZE + 1);
+		if (!buff)
+			return;
+		bytes = read(fd, buff, BUFFER_SIZE);
+		if (bytes == -1)
+			return (free(buff), ft_free(node));
+		buff[bytes] = 0;
+		new_node = create_node(buff);
+		if (!new_node)
+			return (free(buff), ft_free(node));
+		append(node, new_node);
 	}
-	*lst = tmp;
-	return line;
 }
 
-char *get_next_line(int fd)
+t_list *get_next_line(int fd)
 {
-	t_list *node;
-	static t_list *head;
-	char str[BUFFER_SIZE + 1];
-	ssize_t bytes;
+	static t_list *node;
 
-	while (1)
-	{
-		bytes = read(fd, str, BUFFER_SIZE);
-		if (bytes <= 0)
-			return NULL;
-		str[bytes] = 0;
-		node = create_node(ft_strdup(str));
-		if (!node)
-			return (ft_free(&head), NULL);
-		append(&head, node);
-		if (gimme_nl(node->content) || bytes < BUFFER_SIZE)
-			break;
-	}
-	return build_line(&head);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0 , 0) < 0)
+		return NULL;
+	build_list(fd, &node);
+	if (!node)
+		return NULL;
+	return node;
 }
