@@ -24,9 +24,11 @@ static void build_list(int fd, t_list **node)
 	{
 		buff = malloc(BUFFER_SIZE + 1);
 		if (!buff)
-			return;
+			return (free(buff), ft_free(node));
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes == -1)
+			return (free(buff), ft_free(node));
+		if (bytes == 0)
 			return (free(buff), ft_free(node));
 		buff[bytes] = 0;
 		new_node = create_node(buff);
@@ -83,8 +85,7 @@ t_list *clean_node(t_list *node)
 			tmp++;
 			break;
 		}
-		else
-			tmp++;
+		tmp++;
 	}
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
