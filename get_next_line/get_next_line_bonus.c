@@ -9,7 +9,7 @@
 /*   Updated: 2025/04/30 16:50:12 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	get_line_length(const char *line);
 static char	*build_line(int fd, char *line);
@@ -18,23 +18,23 @@ static char	*clean_line(char *line, int pos);
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
+	static char	*line[MAX_FD];
 	char		*newline;
 	char		*leftover;
 	int			pos;
 
-	line = build_line(fd, line);
-	if (!line || ft_strlen(line) == 0)
-		return (free(line), line = NULL, NULL);
+	line[fd] = build_line(fd, line[fd]);
+	if (!line[fd] || ft_strlen(line[fd]) == 0)
+		return (free(line[fd]), line[fd] = NULL, NULL);
 	pos = 0;
-	newline = get_line(line, &pos);
+	newline = get_line(line[fd], &pos);
 	if (!newline)
-		return (free(line), line = NULL, NULL);
-	leftover = clean_line(line, pos);
+		return (free(line[fd]), line[fd] = NULL, NULL);
+	leftover = clean_line(line[fd], pos);
 	if (!leftover)
-		return (free(line), free(newline), line = NULL, NULL);
-	free(line);
-	line = leftover;
+		return (free(line[fd]), free(newline), line[fd] = NULL, NULL);
+	free(line[fd]);
+	line[fd] = leftover;
 	return (newline);
 }
 
