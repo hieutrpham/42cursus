@@ -43,11 +43,11 @@ static char	*build_line(int fd, char *line)
 	ssize_t	bytes;
 	char	*buff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
-		return (free(line), NULL);
+		return (NULL);
 	bytes = 1;
 	while (bytes > 0 && !has_nl(line))
 	{
