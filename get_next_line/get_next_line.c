@@ -53,11 +53,11 @@ static char	*build_line(int fd, char *line)
 	{
 		bytes = read(fd, buff, BUFFER_SIZE);
 		if (bytes == -1)
-			return (free(buff), free(line), line = NULL, NULL);
+			return (free(buff), NULL);
 		buff[bytes] = 0;
 		line = ft_strjoin(line, buff);
 		if (!line)
-			return (free(buff), free(line), line = NULL, NULL);
+			return (free(buff), NULL);
 	}
 	free(buff);
 	return (line);
@@ -84,7 +84,7 @@ static char	*get_line(char *line, int *pos)
 
 	newline = malloc(get_line_length(line) + 1);
 	if (!newline)
-		return (free(line), line = NULL, NULL);
+		return (NULL);
 	while (line[*pos])
 	{
 		if (line[*pos] == '\n')
