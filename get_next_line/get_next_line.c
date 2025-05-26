@@ -11,57 +11,8 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 #include <stdio.h>
+#include <string.h>
 
-static int has_nl(t_list *node)
-{
-	char *tmp;
-
-	if (!node)
-		return 0;
-	while (node)
-	{
-		tmp = node->content;
-		while (*tmp)
-		{
-			if (*tmp == '\n')
-				return 1;
-			tmp++;
-		}
-		node = node->next;
-	}
-	return 0;
-}
-
-static t_list *create_node(char *content)
-{
-	t_list *node;
-
-	if (!content)
-		return NULL;
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return NULL;
-	node->content = content;
-	node->next = NULL;
-	return node;
-}
-
-static void append(t_list **node, t_list *new)
-{
-	t_list *tmp;
-
-	if (!new)
-		return;
-	if (!*node)
-	{
-		*node = new;
-		return;
-	}
-	tmp = *node;
-	while ((tmp)->next)
-		tmp = (tmp)->next;
-	(tmp)->next = new;
-}
 static void build_list(int fd, t_list **node)
 {
 	char *buff;
@@ -85,14 +36,87 @@ static void build_list(int fd, t_list **node)
 	}
 }
 
-t_list *get_next_line(int fd)
+char *get_line(t_list *node)
+{
+	char *line;
+	int i;
+	char *tmp;
+
+	i = 0;
+	line = malloc(get_length(node) + 1);
+	if (!line)
+		return NULL;
+	while (node)
+	{
+		tmp = node->content;
+		while (*tmp)
+		{
+			if (*tmp == '\n')
+			{
+				line[i++] = *tmp;
+				return (line[i] = 0, line);
+			}
+			line[i++] = *tmp++;
+		}
+		node = node->next;
+	}
+	line[i] = 0;
+	return line;
+}
+
+t_list *clean_node(t_list *node)
+{
+	t_list *clean_node;
+	char *buff;
+	char *tmp;
+	int i;
+
+	if (!has_nl(node))
+		return NULL;
+	while (node->next)
+		node = node->next;
+	tmp = node->content;
+	while (*tmp)
+	{
+		if (*tmp == '\n')
+		{
+			tmp++;
+			break;
+		}
+		else
+			tmp++;
+	}
+	buff = malloc(BUFFER_SIZE + 1);
+	if (!buff)
+		return NULL;
+	i = 0;
+	while (*tmp)
+		buff[i++] = *tmp++;
+	buff[i] = 0;
+	clean_node = create_node(buff);
+	if (!clean_node)
+		return (NULL);
+	return clean_node;
+}
+
+char *get_next_line(int fd)
 {
 	static t_list *node;
+	char *line;
+	t_list *new_node;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0 , 0) < 0)
 		return NULL;
 	build_list(fd, &node);
 	if (!node)
 		return NULL;
-	return node;
+	line = get_line(node);
+	if (!line || *line == 0)
+		return (free(line), NULL);
+	new_node = clean_node(node);
+	if (!new_node)
+		return NULL;
+	ft_free(&node);
+	node = new_node;
+	return line;
 }

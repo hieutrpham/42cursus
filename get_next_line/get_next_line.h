@@ -27,5 +27,9 @@ typedef struct s_list {
 } t_list;
 
 void ft_free(t_list **node);
-t_list *get_next_line(int fd);
+char *get_next_line(int fd);
+int has_nl(t_list *node);
+t_list *create_node(char *content);
+void append(t_list **node, t_list *new_node);
+int get_length(t_list *node);
 #endif

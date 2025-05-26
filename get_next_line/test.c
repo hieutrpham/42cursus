@@ -7,16 +7,13 @@ int main() {
     int fd = open("hello.txt", O_RDONLY);
     int fd1 = open("nl.txt", O_RDONLY);
     int fd2 = open("no_nl.txt", O_RDONLY);
-	t_list *line;
-	t_list *tmp;
+	char *line;
 
-	line = get_next_line(fd);
-	tmp = line;
-	while (tmp)
+	while ((line = get_next_line(fd)))
 	{
-		fprintf(stderr, "DEBUGPRINT[8]: test.c:15: tmp=%s\n", tmp->content);
-		tmp = tmp->next;
+		puts("===================");
+		fprintf(stderr, "DEBUGPRINT[8]: test.c:15: line=%s\n", line);
+		free(line);
 	}
-	ft_free(&line);
     return 0;
 }
