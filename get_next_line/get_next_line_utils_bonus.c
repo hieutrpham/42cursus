@@ -9,7 +9,7 @@
 /*   Updated: 2025/04/30 13:56:17 by trupham          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	has_nl(const char *str)
 {
