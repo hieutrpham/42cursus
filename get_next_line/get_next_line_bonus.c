@@ -47,7 +47,7 @@ static char	*build_line(int fd, char *line)
 		return (NULL);
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
-		return (free(line), NULL);
+		return (NULL);
 	bytes = 1;
 	while (bytes > 0 && !has_nl(line))
 	{
