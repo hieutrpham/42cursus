@@ -43,7 +43,7 @@ static char	*build_line(int fd, char *line)
 	ssize_t	bytes;
 	char	*buff;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FD)
 		return (NULL);
 	buff = malloc(BUFFER_SIZE + 1);
 	if (!buff)
