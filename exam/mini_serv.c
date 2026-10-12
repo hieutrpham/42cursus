@@ -6,26 +6,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include <poll.h>
-#include <sys/socket.h>
 
-#define Fd_Max 8
-typedef struct client {
+#define Fd_Max 4096
+typedef struct client
+{
 	int id, fd;
 } Client;
 
-void send_message(int fd, char *buf_read, size_t size);
-Client get_client(int fd);
+void send_message(int testfd, char *buf_read, size_t size);
+Client get_client(int testfd);
 void close_client(struct pollfd *client);
 
 Client clients[Fd_Max] = {};
 int client_id = 0;
 
 struct pollfd fds[Fd_Max] = {};
-int fds_count;
+int fds_count = 0;
 
 int main(int ac, char **av)
 {
-	printf("%d, %d, %d\n", POLLIN, POLLOUT, POLLHUP);
 	if (ac != 2)
 	{
 		fprintf(stderr, "invalid arguments\n");
@@ -64,7 +63,7 @@ int main(int ac, char **av)
 
 	(*fds).fd = server_fd;
 	(*fds).events = POLLIN | POLLOUT;
-	fds_count = 1;
+	fds_count++;
 
 	while (true)
 	{
@@ -81,7 +80,8 @@ int main(int ac, char **av)
 
 			if (current_pollfd->revents & (POLLHUP|POLLERR|POLLNVAL))
 			{
-				fprintf(stdout, "client disconnected\n");
+				Client client = get_client(current_pollfd->fd);
+				fprintf(stdout, "client %d disconnected\n", client.id);
 				close_client(current_pollfd);
 			}
 
@@ -89,7 +89,6 @@ int main(int ac, char **av)
 			{
 				if (current_pollfd->fd == server_fd)
 				{
-					fprintf(stdout, "new client\n");
 					struct sockaddr addr = {};
 					socklen_t addrlen;
 					int clientfd = accept(server_fd, &addr, &addrlen);
@@ -105,6 +104,7 @@ int main(int ac, char **av)
 
 					clients[client_id].fd = clientfd;
 					clients[client_id].id = client_id;
+					fprintf(stdout, "new client %d\n", client_id);
 					client_id++;
 					continue;
 				}
@@ -117,7 +117,7 @@ int main(int ac, char **av)
 
 				if (bytes_read <= 0)
 				{
-					fprintf(stdout, "client disconnected\n");
+					fprintf(stdout, "client %d disconnected\n", client.id);
 					close_client(current_pollfd);
 					continue;
 				}
@@ -132,13 +132,12 @@ void send_message(int testfd, char *buf_read, size_t size)
 	for (int i = 1; i < fds_count; ++i)
 	{
 		struct pollfd *client_pollfd = fds + i;
-		if (fds[i].fd != testfd)
+		if (fds[i].fd != -1 && fds[i].fd != testfd)
 		{
 			size_t bytes_write = write(fds[i].fd, buf_read, size);
 			if (bytes_write <= 0)
 			{
 				close_client(client_pollfd);
-				continue;
 			}
 		}
 	}
@@ -162,5 +161,7 @@ void close_client(struct pollfd *client)
 	sprintf(buf_read, "server: client %d disconnected\n", client_pollfd.id);
 	send_message(client->fd, buf_read, strlen(buf_read));
 	close(client->fd);
-	client->fd = -1;
+	struct pollfd *last_struct = fds + fds_count - 1;
+	*client = *last_struct;
+	--fds_count;
 }
