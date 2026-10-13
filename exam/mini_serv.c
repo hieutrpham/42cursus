@@ -8,13 +8,13 @@
 #include <poll.h>
 
 #define Fd_Max 4096
-typedef struct client
-{
-	int id, fd;
+typedef struct client {
+	int id;
+	int fd;
 } Client;
 
 void send_message(int testfd, char *buf_read, size_t size);
-Client get_client(int testfd);
+Client *get_client(int testfd);
 void close_client(struct pollfd *client);
 
 Client clients[Fd_Max] = {};
@@ -80,8 +80,8 @@ int main(int ac, char **av)
 
 			if (current_pollfd->revents & (POLLHUP|POLLERR|POLLNVAL))
 			{
-				Client client = get_client(current_pollfd->fd);
-				fprintf(stdout, "client %d disconnected\n", client.id);
+				Client *client = get_client(current_pollfd->fd);
+				fprintf(stdout, "client %d disconnected\n", client->id);
 				close_client(current_pollfd);
 			}
 
@@ -100,7 +100,7 @@ int main(int ac, char **av)
 
 					char buf_read[4096] = {};
 					sprintf(buf_read, "server: client %d arrived\n", client_id);
-					send_message(client_id, buf_read, strlen(buf_read));
+					send_message(clientfd, buf_read, strlen(buf_read));
 
 					clients[client_id].fd = clientfd;
 					clients[client_id].id = client_id;
@@ -109,19 +109,22 @@ int main(int ac, char **av)
 					continue;
 				}
 
-				Client client = get_client(current_pollfd->fd);
+				Client *client = get_client(current_pollfd->fd);
 				char buf_read[4096] = {};
-				sprintf(buf_read, "client %d: ", client.id);
-				int len = strlen(buf_read);
-				size_t bytes_read = read(current_pollfd->fd, buf_read + len, sizeof(buf_read) - len);
-
-				if (bytes_read <= 0)
+				if (client->id >= 0)
 				{
-					fprintf(stdout, "client %d disconnected\n", client.id);
-					close_client(current_pollfd);
-					continue;
+					sprintf(buf_read, "client %d: ", client->id);
+					int len = strlen(buf_read);
+					size_t bytes_read = read(current_pollfd->fd, buf_read + len, sizeof(buf_read) - len);
+
+					if (bytes_read <= 0)
+					{
+						fprintf(stdout, "client %d disconnected\n", client->id);
+						close_client(current_pollfd);
+						continue;
+					}
+					send_message(current_pollfd->fd, buf_read, strlen(buf_read));
 				}
-				send_message(current_pollfd->fd, buf_read, strlen(buf_read));
 			}
 		}
 	}
@@ -132,9 +135,9 @@ void send_message(int testfd, char *buf_read, size_t size)
 	for (int i = 1; i < fds_count; ++i)
 	{
 		struct pollfd *client_pollfd = fds + i;
-		if (fds[i].fd != -1 && fds[i].fd != testfd)
+		if (client_pollfd->fd != -1 && client_pollfd->fd != testfd && client_pollfd->fd != 3)
 		{
-			size_t bytes_write = write(fds[i].fd, buf_read, size);
+			size_t bytes_write = write(client_pollfd->fd, buf_read, size);
 			if (bytes_write <= 0)
 			{
 				close_client(client_pollfd);
@@ -143,25 +146,26 @@ void send_message(int testfd, char *buf_read, size_t size)
 	}
 }
 
-Client get_client(int fd)
+Client *get_client(int fd)
 {
-	Client result = {};
+	Client *result = {};
 	for (int i = 0; i < client_id; ++i)
 	{
 		if (clients[i].fd == fd)
-			result = clients[i];
+			result = &clients[i];
 	}
 	return result;
 }
 
 void close_client(struct pollfd *client)
 {
-	char buf_read[4096] = {};
-	Client client_pollfd = get_client(client->fd);
-	sprintf(buf_read, "server: client %d disconnected\n", client_pollfd.id);
-	send_message(client->fd, buf_read, strlen(buf_read));
+	char buf[4096] = {};
+	Client *client_pollfd = get_client(client->fd);
+	sprintf(buf, "server: client %d disconnected\n", client_pollfd->id);
+	send_message(client->fd, buf, strlen(buf));
 	close(client->fd);
-	struct pollfd *last_struct = fds + fds_count - 1;
-	*client = *last_struct;
+	client_pollfd->id = -1;
+	struct pollfd *last_client = fds + fds_count - 1;
+	*client = *last_client;
 	--fds_count;
 }
