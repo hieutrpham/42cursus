@@ -7,7 +7,7 @@
 #include <string.h>
 #include <poll.h>
 
-#define Fd_Max 4096
+#define Fd_Max 4096*100
 typedef struct client {
 	int id;
 	int fd;
@@ -65,13 +65,14 @@ int main(int ac, char **av)
 	(*fds).events = POLLIN | POLLOUT;
 	fds_count++;
 
-	while (true)
+	while (1)
 	{
 		int ready = poll(fds, fds_count, -1);
 		if (ready < 0)
 			continue;
 		
-		for (int i = 0; i < Fd_Max; ++i)
+		int iteration = 0;
+		for (int i = 0; i < Fd_Max && iteration <= ready; ++i)
 		{
 			struct pollfd *current_pollfd = fds + i; 
 
@@ -98,12 +99,13 @@ int main(int ac, char **av)
 					fds[fds_count].events = POLLIN | POLLHUP;
 					fds_count++;
 
+					clients[client_id].fd = clientfd;
+					clients[client_id].id = client_id;
+
 					char buf_read[4096] = {};
 					sprintf(buf_read, "server: client %d arrived\n", client_id);
 					send_message(clientfd, buf_read, strlen(buf_read));
 
-					clients[client_id].fd = clientfd;
-					clients[client_id].id = client_id;
 					fprintf(stdout, "new client %d\n", client_id);
 					client_id++;
 					continue;
@@ -126,6 +128,7 @@ int main(int ac, char **av)
 					send_message(current_pollfd->fd, buf_read, strlen(buf_read));
 				}
 			}
+			iteration++;
 		}
 	}
 }
@@ -141,6 +144,7 @@ void send_message(int testfd, char *buf_read, size_t size)
 			if (bytes_write <= 0)
 			{
 				close_client(client_pollfd);
+				return;
 			}
 		}
 	}
@@ -148,7 +152,7 @@ void send_message(int testfd, char *buf_read, size_t size)
 
 Client *get_client(int fd)
 {
-	Client *result = {};
+	Client *result = {0};
 	for (int i = 0; i < client_id; ++i)
 	{
 		if (clients[i].fd == fd)
@@ -164,8 +168,10 @@ void close_client(struct pollfd *client)
 	sprintf(buf, "server: client %d disconnected\n", client_pollfd->id);
 	send_message(client->fd, buf, strlen(buf));
 	close(client->fd);
-	client_pollfd->id = -1;
+	client->fd = -1;
+
 	struct pollfd *last_client = fds + fds_count - 1;
+	last_client->fd = -1;
 	*client = *last_client;
 	--fds_count;
 }
