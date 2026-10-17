@@ -1,5 +1,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <errno.h>
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <stdio.h>
@@ -13,7 +14,7 @@
 typedef struct client {
 	int id;
 	int fd;
-	bool completed;
+	bool is_pending;
 	char buf[256];
 } Client;
 
@@ -100,11 +101,12 @@ int main(int ac, char **av)
 				if (current_pollfd->fd == server_fd)
 				{
 					struct sockaddr addr = {};
-					socklen_t addrlen;
+					socklen_t addrlen = 0;
 					int clientfd = accept(server_fd, &addr, &addrlen);
 					if (clientfd < 0)
 					{
 						fprintf(stderr, "%m: accept fail, clientfd = %d\n", clientfd);
+						fprintf(stderr, "%s\n", strerror(errno));
 						continue;
 					}
 					g_pollfd_array[g_fds_count].fd = clientfd;
@@ -147,36 +149,29 @@ int main(int ac, char **av)
 					char *start = mes;
 					char *old_nl = start - 1;
 					char *new_nl = strchr(start, '\n');
+					// TODO: Ctrl-D would segfault server
 					Assert(new_nl);
 
 					while (1)
 					{
-						sprintf(buf + strlen(buf), "client %d: ", client->id);
+						if (!client->is_pending)
+							sprintf(buf + strlen(buf), "client %d: ", client->id);
 						Assert(new_nl - start + 1 >= 0);
 						memcpy(buf + strlen(buf), start, new_nl - start + 1);
 
 						old_nl = new_nl;
 						new_nl = strchr(old_nl + 1, '\n');
-						if (!new_nl)
-						{
-							break;
-							if (strlen(old_nl + 1) > 0)
-							{
-								client->completed = false;
-								start += (old_nl - start) + 1;
-								// new_nl = old_nl +;
-								continue;
-							}
-							else
-							{
-								client->completed = true;
-								// new_nl = old_nl + str;
-								break;
-							}
-						}
+						if (!new_nl) break;
 						start += (old_nl - start) + 1;
 					}
 
+					if (strlen(old_nl + 1) > 0)
+					{
+						client->is_pending = true;
+						sprintf(buf + strlen(buf), "client %d: ", client->id);
+						memcpy(buf + strlen(buf), old_nl + 1, strlen(old_nl + 1));
+						continue;
+					}
 					notify_others(current_pollfd->fd, buf, strlen(buf));
 				}
 				++iteration;
