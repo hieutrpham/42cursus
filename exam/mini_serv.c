@@ -7,17 +7,21 @@
 #include <string.h>
 #include <poll.h>
 
-#define Fd_Max 4096*100
+#define Fd_Max 4096
+#define Client_Max 4
+#define Assert(exp) if(!(exp)) (*(int*)0 = 0)
 typedef struct client {
 	int id;
 	int fd;
+	bool completed;
+	char buf[256];
 } Client;
 
 void notify_others(int testfd, char *buf_read, size_t size);
 Client *get_client(int testfd);
 void close_client(struct pollfd *client);
 
-Client g_clients[Fd_Max] = {};
+Client g_clients[Client_Max] = {};
 int g_client_id = 0;
 
 struct pollfd g_pollfd_array[Fd_Max] = {};
@@ -67,6 +71,8 @@ int main(int ac, char **av)
 	    fatal();
 	}
 
+	printf("Server listening\n");
+
 	(*g_pollfd_array).fd = server_fd;
 	(*g_pollfd_array).events = POLLIN | POLLOUT;
 	g_fds_count++;
@@ -78,9 +84,16 @@ int main(int ac, char **av)
 			continue;
 		
 		int iteration = 0;
-		for (int i = 0; i < Fd_Max && iteration <= ready; ++i)
+		// TODO: iteration doesn't get hit with ready
+		for (int i = 0; i < Fd_Max && iteration != ready; ++i)
 		{
 			struct pollfd *current_pollfd = g_pollfd_array + i; 
+
+			if (0 && current_pollfd->revents & POLLOUT)
+			{
+				++iteration;
+				continue;
+			}
 
 			if (current_pollfd->revents & POLLIN)
 			{
@@ -90,9 +103,12 @@ int main(int ac, char **av)
 					socklen_t addrlen;
 					int clientfd = accept(server_fd, &addr, &addrlen);
 					if (clientfd < 0)
+					{
+						fprintf(stderr, "%m: accept fail, clientfd = %d\n", clientfd);
 						continue;
+					}
 					g_pollfd_array[g_fds_count].fd = clientfd;
-					g_pollfd_array[g_fds_count].events = POLLIN | POLLOUT;
+					g_pollfd_array[g_fds_count].events = POLLIN;
 					g_fds_count++;
 
 					g_clients[g_client_id].fd = clientfd;
@@ -103,23 +119,65 @@ int main(int ac, char **av)
 					notify_others(clientfd, buf_read, strlen(buf_read));
 
 					g_client_id++;
+					++iteration;
 					continue;
 				}
 
 				Client *client = get_client(current_pollfd->fd);
 				if (client && client->fd >= 0)
 				{
-					char buf_read[4096] = {};
-					sprintf(buf_read, "client %d: ", client->id);
-					int len = strlen(buf_read);
-					size_t bytes_read = read(current_pollfd->fd, buf_read + len, sizeof(buf_read) - len);
+					/*
+					printf "Hello there\nWhat's going on\nHow are you guys today?\nOkay bye\n"  | nc localhost 8080
+					bash (echo -ne "Something\nSome"; sleep 1; echo -ne "thing else\n";) | nc localhost 8080
+					*/
+
+					char mes[4096] = {};
+
+					// read all the messages from client to the pending buffer
+					char *buf = client->buf;
+					size_t bytes_read = read(current_pollfd->fd, mes, sizeof(mes));
 
 					if (bytes_read <= 0)
 					{
 						close_client(current_pollfd);
+						++iteration;
 						continue;
 					}
-					notify_others(current_pollfd->fd, buf_read, strlen(buf_read));
+
+					char *start = mes;
+					char *old_nl = start - 1;
+					char *new_nl = strchr(start, '\n');
+					Assert(new_nl);
+
+					while (1)
+					{
+						sprintf(buf + strlen(buf), "client %d: ", client->id);
+						Assert(new_nl - start + 1 >= 0);
+						memcpy(buf + strlen(buf), start, new_nl - start + 1);
+
+						old_nl = new_nl;
+						new_nl = strchr(old_nl + 1, '\n');
+						if (!new_nl)
+						{
+							break;
+							if (strlen(old_nl + 1) > 0)
+							{
+								client->completed = false;
+								start += (old_nl - start) + 1;
+								// new_nl = old_nl +;
+								continue;
+							}
+							else
+							{
+								client->completed = true;
+								// new_nl = old_nl + str;
+								break;
+							}
+						}
+						start += (old_nl - start) + 1;
+					}
+
+					notify_others(current_pollfd->fd, buf, strlen(buf));
 				}
 				++iteration;
 			}
