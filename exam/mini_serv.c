@@ -9,7 +9,7 @@
 #include <poll.h>
 
 #define Fd_Max 4096
-#define Client_Max 4
+#define Client_Max 1024
 #define Assert(exp) if(!(exp)) (*(int*)0 = 0)
 typedef struct client {
 	int id;
@@ -85,16 +85,9 @@ int main(int ac, char **av)
 			continue;
 		
 		int iteration = 0;
-		// TODO: iteration doesn't get hit with ready
 		for (int i = 0; i < Fd_Max && iteration != ready; ++i)
 		{
 			struct pollfd *current_pollfd = g_pollfd_array + i; 
-
-			if (0 && current_pollfd->revents & POLLOUT)
-			{
-				++iteration;
-				continue;
-			}
 
 			if (current_pollfd->revents & POLLIN)
 			{
@@ -149,8 +142,12 @@ int main(int ac, char **av)
 					char *start = mes;
 					char *old_nl = start - 1;
 					char *new_nl = strchr(start, '\n');
-					// TODO: Ctrl-D would segfault server
-					Assert(new_nl);
+					if (!new_nl)
+					{
+						close_client(current_pollfd);
+						++iteration;
+						continue;
+					}
 
 					while (1)
 					{
