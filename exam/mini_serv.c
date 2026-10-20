@@ -152,24 +152,27 @@ int main(int ac, char **av)
 					while (1)
 					{
 						if (!client->is_pending)
-							sprintf(buf + strlen(buf), "client %d: ", client->id);
+							sprintf(buf, "client %d: ", client->id);
 						Assert(new_nl - start + 1 >= 0);
 						memcpy(buf + strlen(buf), start, new_nl - start + 1);
+						notify_others(current_pollfd->fd, buf, strlen(buf));
+						memset(buf, 0, strlen(buf));
 
 						old_nl = new_nl;
 						new_nl = strchr(old_nl + 1, '\n');
 						if (!new_nl) break;
-						start += (old_nl - start) + 1;
+						start = old_nl + 1;
 					}
 
 					if (strlen(old_nl + 1) > 0)
 					{
 						client->is_pending = true;
-						sprintf(buf + strlen(buf), "client %d: ", client->id);
+						sprintf(buf, "client %d: ", client->id);
 						memcpy(buf + strlen(buf), old_nl + 1, strlen(old_nl + 1));
+						notify_others(current_pollfd->fd, buf, strlen(buf));
+						memset(buf, 0, strlen(buf));
 						continue;
 					}
-					notify_others(current_pollfd->fd, buf, strlen(buf));
 				}
 				++iteration;
 			}
