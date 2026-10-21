@@ -122,11 +122,11 @@ int main(int ac, char **av)
 				Client *client = get_client(current_pollfd->fd);
 				if (client && client->fd >= 0)
 				{
-					char mes[4096] = {};
+					char buf_write[4096] = {};
 
 					// read all the messages from client to the pending buffer
 					char *buf = client->buf;
-					size_t bytes_read = recv(current_pollfd->fd, mes, sizeof(mes), 0);
+					size_t bytes_read = recv(current_pollfd->fd, buf_write, sizeof(buf_write), 0);
 
 					if (bytes_read <= 0)
 					{
@@ -135,7 +135,7 @@ int main(int ac, char **av)
 						continue;
 					}
 
-					char *start = mes;
+					char *start = buf_write;
 					char *old_nl = start - 1;
 					char *new_nl = strstr(start, "\n");
 					if (!new_nl)
@@ -164,7 +164,6 @@ int main(int ac, char **av)
 						client->is_pending = true;
 						sprintf(buf, "client %d: ", client->id);
 						ft_memcpy(buf + strlen(buf), old_nl + 1, strlen(old_nl + 1));
-						notify_others(current_pollfd->fd, buf, strlen(buf));
 						continue;
 					}
 				}
@@ -178,7 +177,6 @@ void ft_memcpy(char *dest, char *src, size_t size)
 {
 	for (size_t i = 0; i < size; ++i)
 	{
-		// dest[i] = src[i];
 		*dest++ = *src++;
 	}
 }
