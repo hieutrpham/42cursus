@@ -18,6 +18,7 @@ typedef struct client {
 	char buf[256];
 } Client;
 
+void ft_memcpy(char *dest, char *src, size_t size);
 void notify_others(int testfd, char *buf_read, size_t size);
 Client *get_client(int testfd);
 void close_client(struct pollfd *client);
@@ -121,16 +122,11 @@ int main(int ac, char **av)
 				Client *client = get_client(current_pollfd->fd);
 				if (client && client->fd >= 0)
 				{
-					/*
-					printf "Hello there\nWhat's going on\nHow are you guys today?\nOkay bye\n"  | nc localhost 8080
-					bash (echo -ne "Something\nSome"; sleep 1; echo -ne "thing else\n";) | nc localhost 8080
-					*/
-
 					char mes[4096] = {};
 
 					// read all the messages from client to the pending buffer
 					char *buf = client->buf;
-					size_t bytes_read = read(current_pollfd->fd, mes, sizeof(mes));
+					size_t bytes_read = recv(current_pollfd->fd, mes, sizeof(mes), 0);
 
 					if (bytes_read <= 0)
 					{
@@ -141,7 +137,7 @@ int main(int ac, char **av)
 
 					char *start = mes;
 					char *old_nl = start - 1;
-					char *new_nl = strchr(start, '\n');
+					char *new_nl = strstr(start, "\n");
 					if (!new_nl)
 					{
 						close_client(current_pollfd);
@@ -154,12 +150,11 @@ int main(int ac, char **av)
 						if (!client->is_pending)
 							sprintf(buf, "client %d: ", client->id);
 						Assert(new_nl - start + 1 >= 0);
-						memcpy(buf + strlen(buf), start, new_nl - start + 1);
+						ft_memcpy(buf + strlen(buf), start, new_nl - start + 1);
 						notify_others(current_pollfd->fd, buf, strlen(buf));
-						memset(buf, 0, strlen(buf));
 
 						old_nl = new_nl;
-						new_nl = strchr(old_nl + 1, '\n');
+						new_nl = strstr(old_nl + 1, "\n");
 						if (!new_nl) break;
 						start = old_nl + 1;
 					}
@@ -168,15 +163,23 @@ int main(int ac, char **av)
 					{
 						client->is_pending = true;
 						sprintf(buf, "client %d: ", client->id);
-						memcpy(buf + strlen(buf), old_nl + 1, strlen(old_nl + 1));
+						ft_memcpy(buf + strlen(buf), old_nl + 1, strlen(old_nl + 1));
 						notify_others(current_pollfd->fd, buf, strlen(buf));
-						memset(buf, 0, strlen(buf));
 						continue;
 					}
 				}
 				++iteration;
 			}
 		}
+	}
+}
+
+void ft_memcpy(char *dest, char *src, size_t size)
+{
+	for (size_t i = 0; i < size; ++i)
+	{
+		// dest[i] = src[i];
+		*dest++ = *src++;
 	}
 }
 
@@ -194,6 +197,7 @@ void notify_others(int testfd, char *buf_read, size_t size)
 			}
 		}
 	}
+	memset(buf_read, 0, size);
 }
 
 Client *get_client(int fd)
