@@ -53,7 +53,7 @@ void notify_others(int testfd, char *buf_read, size_t size)
 Client *get_client(int fd)
 {
 	Client *result = {0};
-	for (int i = 0; i < client_count; ++i)
+	for (size_t i = 0; i < Array_Count(clients); ++i)
 	{
 		if (clients[i].fd == fd)
 		{
@@ -70,7 +70,7 @@ void close_client(struct pollfd *client)
 	sprintf(buf, "server: client %d disconnected\n", cli->id);
 	notify_others(client->fd, buf, strlen(buf));
 
-	Client *last_client = clients + client_index;
+	Client *last_client = clients + client_index - 1;
 	*cli = *last_client;
 	last_client->fd = -1;
 	last_client->id = -1;
@@ -78,10 +78,10 @@ void close_client(struct pollfd *client)
 	
 	close(client->fd);
 
-	struct pollfd *last_client = polls + poll_count - 1;
-	*client = *last_client;
-	last_client->fd = -1;
-	last_client->revents = 0;
+	struct pollfd *last_poll = polls + poll_count - 1;
+	*client = *last_poll;
+	last_poll->fd = -1;
+	last_poll->revents = 0;
 	--poll_count;
 }
 
@@ -136,7 +136,7 @@ int main(int ac, char **av)
 			continue;
 		
 		int iteration = 0;
-		for (int i = 0; i < Array_Count(polls) && iteration != ready; ++i)
+		for (size_t i = 0; i < Array_Count(polls) && iteration != ready; ++i)
 		{
 			struct pollfd *curr = polls + i; 
 
@@ -157,14 +157,15 @@ int main(int ac, char **av)
 					polls[poll_count].events = POLLIN;
 					poll_count++;
 
-					clients[client_count].fd = clientfd;
-					clients[client_count].id = client_count;
+					clients[client_index].fd = clientfd;
+					clients[client_index].id = client_id;
 
 					char buf_read[4096] = {};
-					sprintf(buf_read, "server: client %d arrived\n", client_count);
+					sprintf(buf_read, "server: client %d arrived\n", client_id);
 					notify_others(clientfd, buf_read, strlen(buf_read));
 
-					client_count++;
+					client_index++;
+					client_id++;
 					++iteration;
 					continue;
 				}
